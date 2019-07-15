@@ -1695,8 +1695,8 @@
     <None Include="Views\forgot-password.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Shared\_mainLayout.cshtml" />
-    <None Include="Views\login.cshtml" />
     <None Include="Views\register.cshtml" />
+    <Content Include="Views\Shared\_accountLayout.cshtml" />
     <None Include="Views\tables.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
