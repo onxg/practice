@@ -1689,6 +1689,7 @@
     <Content Include="vendor\jquery\jquery.slim.js" />
     <Content Include="vendor\jquery\jquery.slim.min.js" />
     <None Include="Views\404.cshtml" />
+    <Content Include="Views\Account\login.cshtml" />
     <None Include="Views\blank.cshtml" />
     <None Include="Views\charts.cshtml" />
     <None Include="Views\forgot-password.cshtml" />
@@ -1700,6 +1701,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
