@@ -12,6 +12,7 @@ namespace Practice.Controllers
         public ActionResult Index()
         {
             return View();
+            //test
         }
     }
 }
