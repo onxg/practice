@@ -11,6 +11,7 @@ namespace Practice.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            //komentarz do commita
             return View();
         }
     }
