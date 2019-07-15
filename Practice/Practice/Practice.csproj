@@ -1694,6 +1694,7 @@
     <None Include="Views\charts.cshtml" />
     <None Include="Views\forgot-password.cshtml" />
     <None Include="Views\Home\index.cshtml" />
+    <Content Include="Views\Shared\_mainLayout.cshtml" />
     <None Include="Views\login.cshtml" />
     <None Include="Views\register.cshtml" />
     <None Include="Views\tables.cshtml" />
@@ -1874,7 +1875,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Practice.Core\Practice.Core.csproj">
