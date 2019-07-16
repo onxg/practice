@@ -8,6 +8,7 @@ namespace Practice.Core.ViewModels
 
         [Required]
         [Display(Name = "First name")]
+
         public string FirstName { get; set; }
 
         [Required]

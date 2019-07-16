@@ -21,6 +21,20 @@
         }
 
 
+
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(int? id)
+        {
+
+            if(!id.HasValue)
+            {
+                return RedirectToAction("Index");
+            }
+
+            await repository.DeleteEmployee(id.Value);
+
+
         public async Task<ActionResult> Edit(int? id)
         {
             if (!id.HasValue || id == 0)
