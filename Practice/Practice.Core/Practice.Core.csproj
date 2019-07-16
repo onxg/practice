@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IHumanResourcesRepository.cs" />
+    <Compile Include="ViewModels\Employee.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Practice.DAL\Practice.DAL.csproj">
