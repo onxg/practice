@@ -27,13 +27,14 @@
         public async Task<ActionResult> Delete(int? id)
         {
 
-            if(!id.HasValue)
+            if (!id.HasValue)
             {
                 return RedirectToAction("Index");
             }
 
             await repository.DeleteEmployee(id.Value);
-
+            return RedirectToAction("Index");
+        }
 
         public async Task<ActionResult> Edit(int? id)
         {
