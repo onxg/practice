@@ -36,26 +36,6 @@
             return employees;
         }
 
-
-        public async Task DeleteEmployee(int id)
-        {
-            if (id == 0)
-            {
-                return;
-            }
-
-            Employee employee = await context.Employee.FirstOrDefaultAsync(x => x.BusinessEntityID == id);
-
-            if (employee == null)
-            {
-                return;
-            }
-
-            employee.CurrentFlag = false;
-            
-            await context.SaveChangesAsync();
-        }
-
         public async Task<ViewModels.Employee> GetEmployeeById(int id)
         {
             if (id == 0)
@@ -76,6 +56,95 @@
                 PostalCode = employee.PostalCode
             };
         }
+
+        public async Task CreateEmployee(ViewModels.Employee employee)
+        {
+            BusinessEntity businessEntity = new BusinessEntity
+            {
+                rowguid = Guid.NewGuid(),
+                ModifiedDate = DateTime.Now
+            };
+
+            //context.BusinessEntity.Add(businessEntity);
+
+
+            Person newPerson = new Person
+            {
+                BusinessEntity = businessEntity,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                PersonType = "EM",
+                NameStyle = false,
+                EmailPromotion = 0,
+                rowguid = Guid.NewGuid(),
+                ModifiedDate = DateTime.Now
+            };
+
+            PhoneNumberType phoneNumberType = await context.PhoneNumberType.FirstOrDefaultAsync(pnt => pnt.Name == "Cell");
+
+            PersonPhone personPhone = new PersonPhone
+            {
+                PhoneNumberType = phoneNumberType,
+                PhoneNumberTypeID = phoneNumberType.PhoneNumberTypeID,
+                ModifiedDate = DateTime.Now,
+                Person = newPerson,
+                PhoneNumber = employee.PhoneNumber
+            };
+
+            newPerson.PersonPhone = new List<PersonPhone> { personPhone };
+
+            context.Person.Add(newPerson);
+
+            //int? maxId = (await context.Person.OrderByDescending(p => p.BusinessEntityID).Take(1).ToListAsync()).FirstOrDefault()?.BusinessEntityID;
+            //if (maxId == null)
+            //    maxId = 0;
+
+            //Person newPerson = new Person
+            //{
+            //    BusinessEntityID = maxId.Value + 1,
+            //    FirstName = employee.FirstName,
+            //    LastName = employee.LastName
+            //};
+            //context.Person.Add(newPerson);
+
+
+            //Employee newEmployee = new Employee
+            //{
+            //    Person = new Person
+            //    {
+            //        FirstName = employee.FirstName,
+            //        LastName = employee.LastName,
+            //        PersonPhone = new List<PersonPhone> { new PersonPhone { PhoneNumber = employee.PhoneNumber, PhoneNumberTypeID = 1 } },
+            //    },
+            //    CurrentFlag = true,
+
+            //};
+
+            //context.Employee.Add(newEmployee);
+            await context.SaveChangesAsync();
+        }
+
+
+        public async Task DeleteEmployee(int id)
+        {
+            if (id == 0)
+            {
+                return;
+            }
+
+            Employee employee = await context.Employee.FirstOrDefaultAsync(x => x.BusinessEntityID == id);
+
+            if (employee == null)
+            {
+                return;
+            }
+
+            employee.CurrentFlag = false;
+            
+            await context.SaveChangesAsync();
+        }
+
+
 
         public async Task UpdateEmployee(ViewModels.Employee employee)
         {

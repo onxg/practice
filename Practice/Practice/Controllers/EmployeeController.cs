@@ -21,6 +21,18 @@
         }
 
 
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(Core.ViewModels.Employee model)
+        {
+            repository.CreateEmployee(model);
+            return RedirectToAction("Index");
+        }
+
 
 
         [HttpPost]
