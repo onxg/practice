@@ -19,5 +19,21 @@
 
             return View(model);
         }
+
+
+        // GET: Employees/Delete/5
+        [HttpPost]
+        public async Task<ActionResult> Delete(int? id)
+        {
+
+            if(!id.HasValue)
+            {
+                return RedirectToAction("Index");
+            }
+
+            await repository.DeleteEmployee(id.Value);
+
+            return RedirectToAction("Index");
+        }
     }
 }

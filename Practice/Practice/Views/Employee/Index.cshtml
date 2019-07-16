@@ -56,7 +56,12 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+
+            @using(Html.BeginForm("Delete", "Employee", new { id = item.Id }))
+            {
+                <input type="submit" class="btn btn-link" value="Delete" />
+            }
+            @*@Html.ActionLink("Delete", "Delete", new {  id=item.Id })*@
         </td>
     </tr>
 }
