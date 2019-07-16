@@ -26,6 +26,12 @@ namespace Practice
             );
 
             routes.MapRoute(
+               name: "Index",
+               url: "index",
+               defaults: new { controller = "Home", action = "Index" }
+           );
+
+            routes.MapRoute(
                 name: "Register",
                 url: "register",
                 defaults: new { controller = "Side", action = "Register" }

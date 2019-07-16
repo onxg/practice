@@ -40,7 +40,7 @@ namespace Practice.Controllers
         }
         public ActionResult Blank()
         {
-            return View();
+            return View("blank");
 
         }
         
