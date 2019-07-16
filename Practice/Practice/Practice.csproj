@@ -1720,9 +1720,9 @@
     <None Include="Views\forgot-password.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Shared\_mainLayout.cshtml" />
-    <None Include="Views\register.cshtml" />
+    <None Include="Views\Side\register.cshtml" />
     <Content Include="Views\Shared\_accountLayout.cshtml" />
-    <None Include="Views\tables.cshtml" />
+    <None Include="Views\Side\tables.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -1731,6 +1731,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SideController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
