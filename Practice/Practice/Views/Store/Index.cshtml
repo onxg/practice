@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+<table class="table table-bordered" id="table">
+    <thead>
+        <tr>
+            <th>Nazwa sklepu</th>
+            <th>Adres</th>
+            <th>Kod pocztowy</th>
+            <th>Miasto</th>
+            <th>Kraj</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            loadSubscriptionsTable();
+        });
+
+        function loadSubscriptionsTable() {
+            $('#table').DataTable().destroy();
+            $('#table').DataTable({
+                "bServerSide": true,
+                "bProcessing": true,
+                "searching": false,
+                "ajax": {
+                    url: '/Store/GetAllStores',
+                    type: 'POST'
+                },
+                paging: true,
+                ordering: true,
+                bAutoWidth: false,
+                "pageLength": 25,
+                "order": [[1, "asc"]],
+                "columns": [
+                    { "data": "Name" },
+                    { "data": "Address" },
+                    { "data": "PostalCode" },
+                    { "data": "City" },
+                    { "data": "Country" },
+                ],
+                "columnDefs": [
+                    { "targets": 0 },
+                    { "targets": 1 },
+                    { "targets": 2 },
+                    { "targets": 3 },
+                    { "targets": 4 },
+                ],
+                "dom": 'Rlfrtip',
+                "bDestroy": true,
+                "iDisplayLength": 25,
+                "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
+            });
+        }
+    </script>
+}
