@@ -1,6 +1,8 @@
 ﻿namespace Practice.Controllers
 {
     using Practice.Core.Repositories;
+    using System;
+    using System.Net;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
@@ -20,9 +22,35 @@
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Create(FormCollection formCollection)
+        {
+            Core.ViewModels.Employee newEmployee = new Core.ViewModels.Employee
+            {
+                FirstName = formCollection["firstName"],
+                LastName = formCollection["lastName"],
+                PhoneNumber = formCollection["phoneNumber"],
+                Address = formCollection["address"],
+                PostalCode = formCollection["postalCode"],
+                City = formCollection["city"]
+            };
+            
+            try
+            {
+                await repository.CreateEmployee(newEmployee);
+            }
+            catch (InvalidOperationException e)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
         public async Task<ActionResult> Delete(int? id)
         {
+
             if (!id.HasValue)
             {
                 return RedirectToAction("Index");
@@ -39,7 +67,7 @@
                 return RedirectToAction("Index");
 
             var model = await repository.GetEmployeeById(id.Value);
-            if(model == null)
+            if (model == null)
                 return RedirectToAction("Index");
 
             return View(model);
@@ -52,6 +80,7 @@
                 return RedirectToAction("Edit", new { id = employee.Id });
 
             await repository.UpdateEmployee(employee);
+
             return RedirectToAction("Index");
         }
     }

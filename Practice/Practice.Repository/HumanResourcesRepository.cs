@@ -36,38 +36,54 @@
             return employees;
         }
 
+        public async Task<ViewModels.Employee> GetEmployeeById(int id)
+        {
+            if (id == 0)
+            {
+                return;
+            }
+
+            Employee employee = await context.Employee.FirstOrDefaultAsync(x => x.BusinessEntityID == id);
+
+            if (employee == null)
+            {
+                return;
+            }
+
+            // Create new employee with random properties
+            var random = new Random();
+            var newEmployee = new Employee
+            {
+                Person = person,
+                NationalIDNumber = random.Next().ToString(),
+                LoginID = $"adventure-works/{employee.FirstName.ToLower() + random.Next().ToString()}",
+                JobTitle = "Intern",
+                BirthDate = new DateTime(random.Next(1970, 2000), random.Next(1, 12), random.Next(1, 28)),
+                MaritalStatus = "S",
+                Gender = random.Next(0, 1) == 1 ? "M" : "F",
+                HireDate = DateTime.Now - TimeSpan.FromDays(1),
+                SalariedFlag = false,
+                VacationHours = 25,
+                SickLeaveHours = 0,
+                CurrentFlag = true,
+                rowguid = Guid.NewGuid(),
+                ModifiedDate = DateTime.Now
+            };
+
+            context.Employee.Add(newEmployee);
+            await context.SaveChangesAsync();
+        }
 
         public async Task DeleteEmployee(int id)
         {
             if (id == 0)
                 return;
-            
+
             var employee = await context.Employee.SingleAsync(x => x.BusinessEntityID == id);
 
             employee.CurrentFlag = false;
-            
+
             await context.SaveChangesAsync();
-        }
-
-        public async Task<ViewModels.Employee> GetEmployeeById(int id)
-        {
-            if (id == 0)
-                return null;
-
-            var employee = await context.vEmployee.FirstOrDefaultAsync(e => e.BusinessEntityID == id);
-            if (employee == null)
-                return null;
-
-            return new ViewModels.Employee()
-            {
-                Id = employee.BusinessEntityID,
-                Address = employee.AddressLine1,
-                FirstName = employee.FirstName,
-                LastName = employee.LastName,
-                City = employee.City,
-                PhoneNumber = employee.PhoneNumber,
-                PostalCode = employee.PostalCode
-            };
         }
 
         public async Task UpdateEmployee(ViewModels.Employee employee)
@@ -87,9 +103,11 @@
             var oldPhone = person.PersonPhone.FirstOrDefault();
             if (oldPhone != null)
             {
+                // PersonPhone Primary Key = BusinessEntityID + PhoneNumber + PhoneNumberTypeID 
+                // so PhoneNumber can't be modified then it's removed and added again
                 person.PersonPhone.Remove(oldPhone);
 
-                PersonPhone newPhone = new PersonPhone
+                var newPhone = new PersonPhone
                 {
                     BusinessEntityID = oldPhone.BusinessEntityID,
                     Person = oldPhone.Person,
@@ -113,5 +131,20 @@
 
             await context.SaveChangesAsync();
         }
+
+        #region Private helper methods
+
+        private async Task<bool> EmployeeExists(ViewModels.Employee employee)
+        {
+            var existingEmployee = await context.vEmployee.FirstOrDefaultAsync(ve => ve.FirstName == employee.FirstName &&
+                                                                                     ve.LastName == employee.LastName &&
+                                                                                     ve.PhoneNumber == employee.PhoneNumber &&
+                                                                                     ve.AddressLine1 == employee.Address &&
+                                                                                     ve.PostalCode == employee.PostalCode &&
+                                                                                     ve.City == employee.City);
+
+            return existingEmployee != null;
+        }
+        #endregion
     }
 }
