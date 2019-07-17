@@ -56,9 +56,6 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -103,14 +100,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Site.css" />
     <Content Include="css\sb-admin.css" />
     <Content Include="css\sb-admin.min.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="js\demo\chart-area-demo.js" />
     <Content Include="js\demo\chart-bar-demo.js" />
@@ -118,17 +109,7 @@
     <Content Include="js\demo\datatables-demo.js" />
     <Content Include="js\sb-admin.js" />
     <Content Include="js\sb-admin.min.js" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -138,7 +119,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="vendor\bootstrap\js\bootstrap.bundle.js" />
     <Content Include="vendor\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="vendor\bootstrap\js\bootstrap.js" />
@@ -1732,18 +1712,15 @@
     <Content Include="vendor\jquery\jquery.slim.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-    <None Include="Views\404.cshtml" />
     <Content Include="Views\Account\login.cshtml" />
-    <None Include="Views\blank.cshtml" />
-    <None Include="Views\charts.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
-    <Content Include="Views\Employee\Details.cshtml" />
-    <Content Include="Views\Employee\Create.cshtml" />
-    <None Include="Views\forgot-password.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Shared\_mainLayout.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Side\404.cshtml" />
+    <Content Include="Views\Side\blank.cshtml" />
+    <Content Include="Views\Side\charts.cshtml" />
+    <Content Include="Views\Side\forgot-password.cshtml" />
     <None Include="Views\Side\register.cshtml" />
     <Content Include="Views\Shared\_accountLayout.cshtml" />
     <None Include="Views\Side\tables.cshtml" />
@@ -1756,6 +1733,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SideController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1917,7 +1895,7 @@
     <Content Include="vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="vendor\jquery\jquery.min.map" />
     <Content Include="vendor\jquery\jquery.slim.min.map" />
-    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Store\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
