@@ -82,5 +82,16 @@
             await repository.UpdateEmployee(employee);
             return RedirectToAction("Index");
         }
+        public async Task<ActionResult> Details(int? id)
+        {
+            if (!id.HasValue || id == 0)
+                return RedirectToAction("Index");
+
+            var model = await repository.GetEmployeeById(id.Value);
+            if (model == null)
+                return RedirectToAction("Index");
+
+            return View(model);
+        }
     }
 }
