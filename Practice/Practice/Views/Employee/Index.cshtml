@@ -8,7 +8,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEmployeeModal">Create</button>
 </p>
 <table id="dataTable" class="table table-bordered">
     <thead>
@@ -57,10 +57,10 @@
                     @Html.DisplayFor(modelItem => item.City)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new {  id=item.Id }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                  
-                   @using(Html.BeginForm("Delete", "Employee", new { id = item.Id }))
+
+                    @using (Html.BeginForm("Delete", "Employee", new { id = item.Id }))
                     {
                         <input type="submit" class="btn btn-link" value="Delete" />
                     }
@@ -70,4 +70,43 @@
     </tbody>
 
 </table>
+
+@Html.Partial("CreateModalPartial")
+
+@section Scripts {
+    <script src="~/js/demo/datatables-demo.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+        $("#createEmployeeButton").click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/Employee/Create/",
+                data: {
+                    firstName: $("#FirstName").val(),
+                    lastName: $("#LastName").val(),
+                    phoneNumber: $("#PhoneNumber").val(),
+                    address: $("#Address").val(),
+                    postalCode: $("#PostalCode").val(),
+                    city: $("#City").val()
+                },
+                success: function (result) {
+                    $("#createEmployeeModal").modal("hide");
+                    $("#FirstName").val("");
+                    $("#LastName").val("");
+                    $("#PhoneNumber").val("");
+                    $("#Address").val("");
+                    $("#PostalCode").val("");
+                    $("#City").val("");
+
+                    alert("Employee has been succesfully created!")
+                },
+                error: function (result) {
+                    alert('error');
+                }
+            });
+        });
+    </script>
+}
 
