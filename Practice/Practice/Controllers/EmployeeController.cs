@@ -2,6 +2,7 @@
 {
     using Practice.Core.Repositories;
     using System;
+    using System.Net;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
@@ -21,25 +22,29 @@
             return View(model);
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         [HttpPost]
-        public async Task<ActionResult> Create(Core.ViewModels.Employee model)
+        public async Task<ActionResult> Create(FormCollection formCollection)
         {
+            Core.ViewModels.Employee newEmployee = new Core.ViewModels.Employee
+            {
+                FirstName = formCollection["firstName"],
+                LastName = formCollection["lastName"],
+                PhoneNumber = formCollection["phoneNumber"],
+                Address = formCollection["address"],
+                PostalCode = formCollection["postalCode"],
+                City = formCollection["city"]
+            };
+            
             try
             {
-                await repository.CreateEmployee(model);
+                await repository.CreateEmployee(newEmployee);
             }
             catch (InvalidOperationException e)
             {
-                ModelState.AddModelError("", e.Message);
-                return View(model);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            return RedirectToAction("Index");
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         [HttpPost]

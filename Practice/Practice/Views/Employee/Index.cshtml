@@ -73,8 +73,8 @@
 
 @Html.Partial("CreateModalPartial")
 
-@section scripts {
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+@section Scripts {
+    <script src="~/js/demo/datatables-demo.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
@@ -92,7 +92,15 @@
                     city: $("#City").val()
                 },
                 success: function (result) {
-                    alert('ok');
+                    $("#createEmployeeModal").modal("hide");
+                    $("#FirstName").val("");
+                    $("#LastName").val("");
+                    $("#PhoneNumber").val("");
+                    $("#Address").val("");
+                    $("#PostalCode").val("");
+                    $("#City").val("");
+
+                    alert("Employee has been succesfully created!")
                 },
                 error: function (result) {
                     alert('error');

@@ -42,8 +42,6 @@
                 return null;
 
             var employee = await context.vEmployee.SingleAsync(e => e.BusinessEntityID == id);
-            if (employee == null)
-                return null;
 
             return new ViewModels.Employee()
             {
@@ -64,7 +62,7 @@
                 throw new InvalidOperationException("This employee already exists.");
 
             // Create a person entity with all needed relations
-            Person person = new Person
+            var person = new Person
             {
                 BusinessEntity = new BusinessEntity
                 {
@@ -108,8 +106,8 @@
             };
 
             // Create new employee with random properties
-            Random random = new Random();
-            Employee newEmployee = new Employee
+            var random = new Random();
+            var newEmployee = new Employee
             {
                 Person = person,
                 NationalIDNumber = random.Next().ToString(),
@@ -136,10 +134,7 @@
             if (id == 0)
                 return;
 
-            Employee employee = await context.Employee.SingleAsync(x => x.BusinessEntityID == id);
-
-            if (employee == null)
-                return;
+            var employee = await context.Employee.SingleAsync(x => x.BusinessEntityID == id);
 
             employee.CurrentFlag = false;
 
@@ -167,7 +162,7 @@
                 // so PhoneNumber can't be modified then it's removed and added again
                 person.PersonPhone.Remove(oldPhone);
 
-                PersonPhone newPhone = new PersonPhone
+                var newPhone = new PersonPhone
                 {
                     BusinessEntityID = oldPhone.BusinessEntityID,
                     Person = oldPhone.Person,
@@ -198,9 +193,9 @@
         {
             var existingEmployee = await context.vEmployee.FirstOrDefaultAsync(ve => ve.FirstName == employee.FirstName &&
                                                                                      ve.LastName == employee.LastName &&
-                                                                                     ve.PhoneNumber == employee.PhoneNumber && 
+                                                                                     ve.PhoneNumber == employee.PhoneNumber &&
                                                                                      ve.AddressLine1 == employee.Address &&
-                                                                                     ve.PostalCode == employee.PostalCode && 
+                                                                                     ve.PostalCode == employee.PostalCode &&
                                                                                      ve.City == employee.City);
 
             return existingEmployee != null;
