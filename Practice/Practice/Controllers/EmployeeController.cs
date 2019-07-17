@@ -28,8 +28,8 @@
             string serchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-
             var model = await repository.GetEmployees();
+            int totalRows = model.Count;
             if (!string.IsNullOrEmpty(serchValue))
             {
                 model = model.Where(x => x.LastName.ToLower().Contains(serchValue.ToLower())|| 
@@ -43,9 +43,9 @@
 
               model = model.OrderBy(sortColumnName+" "+sortDirection).ToList();
 
-
+            int totalRowsAfterFiltering = model.Count;
             model =  model.Skip(start).Take(length).ToList();
-            return Json(new { data = model/*,draw=Request["draw"],recordsTotal=}*/, JsonRequestBehavior.AllowGet });
+            return Json(new { data = model,draw=Request["draw"],recordsTotal=totalRows,recordsFiltered= totalRowsAfterFiltering, JsonRequestBehavior.AllowGet });
         }
         
         [HttpPost]
