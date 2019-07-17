@@ -42,10 +42,7 @@
             if (id == 0)
                 return;
             
-            Employee employee = await context.Employee.FirstOrDefaultAsync(x => x.BusinessEntityID == id);
-
-            if (employee == null)
-                return;
+            var employee = await context.Employee.SingleAsync(x => x.BusinessEntityID == id);
 
             employee.CurrentFlag = false;
             

@@ -20,26 +20,16 @@
             return View(model);
         }
 
+
         public async Task<ActionResult> Delete(int? id)
         {
-
-            if (!id.HasValue || id == 0)
+            if (!id.HasValue)
+            {
                 return RedirectToAction("Index");
+            }
 
-            
-            var model = await repository.GetEmployeeById(id.Value);
-            if (model == null)
-                return RedirectToAction("Index");
+            await repository.DeleteEmployee(id.Value);
 
-            return View(model);
-        }
-
-        
-        [HttpPost]
-        public async Task<ActionResult> Delete(Core.ViewModels.Employee employee)
-        {
-
-            await repository.DeleteEmployee(employee.Id);
             return RedirectToAction("Index");
         }
 
