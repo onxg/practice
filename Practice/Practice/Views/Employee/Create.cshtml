@@ -1,13 +1,5 @@
 ﻿@model Practice.Core.ViewModels.Employee
 
-@{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_mainLayout.cshtml";
-}
-
-<h2>Create</h2>
-
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -66,7 +58,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -75,7 +67,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-<script src="~/Scripts/jquery-3.3.1.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

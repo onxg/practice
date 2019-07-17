@@ -15,7 +15,10 @@
         {
             repository = _repository;
         }
-
+        public ActionResult Create()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
             return View();
