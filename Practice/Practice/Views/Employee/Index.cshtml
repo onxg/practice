@@ -59,7 +59,40 @@
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) 
+                    @*<button type="button" class="btn btn-primary" id="btnDelete">Delete</button>*@
+                    <a href="" data-toggle="modal" data-target="#deleteModal">Delete</a>
+                    <div class="modal" id="deleteModal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirm</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete 
+                                    @item.FirstName @item.LastName?</p>
+
+                                   
+                                </div>
+                               
+                              
+                                <div class="modal-footer">
+                                    @using (Html.BeginForm("Delete", "Employee", new { id = item.Id }))
+                                    {
+                                        <input type="submit" class="btn btn-primary" value="Delete" />
+                                    }
+                                    @*<button type="button" class="btn btn-primary">Delete</button>*@
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                  
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
 
                 </td>
             </tr>
@@ -68,3 +101,13 @@
 
 </table>
 
+<script type="text/javascript">
+
+    //$(document).ready(function () {
+    //    $("#Delete").modal('show');
+    //});
+     $(document).ready(function () {  
+            $("#btnDelete").click(function () {  
+                $("#deleteModal").modal('show');  
+            });  
+</script>

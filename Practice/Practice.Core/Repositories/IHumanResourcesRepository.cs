@@ -9,5 +9,6 @@ namespace Practice.Core.Repositories
         Task DeleteEmployee(int id);
         Task<ViewModels.Employee> GetEmployeeById(int id);
         Task UpdateEmployee(ViewModels.Employee employee);
+       
     }
 }

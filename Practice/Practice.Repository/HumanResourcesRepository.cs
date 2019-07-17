@@ -41,14 +41,14 @@
         {
             if (id == 0)
                 return;
-            
+
             Employee employee = await context.Employee.FirstOrDefaultAsync(x => x.BusinessEntityID == id);
 
             if (employee == null)
                 return;
 
             employee.CurrentFlag = false;
-            
+
             await context.SaveChangesAsync();
         }
 
@@ -115,6 +115,7 @@
             }
 
             await context.SaveChangesAsync();
+
         }
     }
 }
