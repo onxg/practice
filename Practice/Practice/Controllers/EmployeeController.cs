@@ -1,9 +1,9 @@
 ﻿namespace Practice.Controllers
 {
     using Practice.Core.Repositories;
+    using Practice.Core.ViewModels;
     using System;
     using System.Linq;
-    using System.Linq.Dynamic;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
@@ -23,34 +23,24 @@
         {
             return View();
         }
-        [HttpPost]
-        public async Task<ActionResult> GetEmployeesData()
+
+        public async Task<ActionResult> GetAllEmployees(FormCollection form)
         {
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string serchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-            var model = await repository.GetEmployees();
-            int totalRows = model.Count;
-            if (!string.IsNullOrEmpty(serchValue))
+            var searchFilters = new SearchFilters(form)
             {
-                model = model.Where(x => x.LastName.ToLower().Contains(serchValue.ToLower())|| 
-                 x.FirstName.ToLower().Contains(serchValue.ToLower()) ||
-                 x.PhoneNumber.ToLower().Contains(serchValue.ToLower()) ||
-                 x.Address.ToLower().Contains(serchValue.ToLower()) ||
-                 x.PostalCode.ToLower().Contains(serchValue.ToLower()) ||
-                 x.City.ToLower().Contains(serchValue.ToLower()) ||
-                 x.Id.ToString().Contains(serchValue.ToLower()) ).ToList();
-            }
+                OrderBy = GetOrderBy(form)
+            };
 
-              model = model.OrderBy(sortColumnName+" "+sortDirection).ToList();
+            var result = await repository.GetEmployeesAsync(searchFilters);
 
-            int totalRowsAfterFiltering = model.Count;
-            model =  model.Skip(start).Take(length).ToList();
-            return Json(new { data = model,draw=Request["draw"],recordsTotal=totalRows,recordsFiltered= totalRowsAfterFiltering, JsonRequestBehavior.AllowGet });
+            return this.Json(
+                new
+                {
+                    iTotalRecords = result.iTotalRecords,
+                    iTotalDisplayRecords = result.iTotalDisplayRecords,
+                    aaData = result.aaData
+                }, JsonRequestBehavior.AllowGet);
         }
-        
         [HttpPost]
         public async Task<ActionResult> Delete(int? id)
         {
@@ -95,6 +85,38 @@
                 return RedirectToAction("Index");
 
             return View(model);
+        }
+
+        private string GetOrderBy(FormCollection form)
+        {
+            string orderBy = form["order[0][column]"];
+
+            switch (orderBy)
+            {
+                case "0":
+                default:
+                    orderBy = "FirstName";
+                    break;
+                case "1":
+                    orderBy = "LastName";
+                    break;
+                case "2":
+                    orderBy = "PhoneNumber";
+                    break;
+                case "3":
+                    orderBy = "Address";
+                    break;
+                case "4":
+                    orderBy = "PostalCode";
+                    break;
+                case "5":
+                    orderBy = "City";
+                    break;
+            }
+
+            orderBy = (orderBy + " " + form["order[0][dir]"]).ToUpper();
+
+            return orderBy;
         }
     }
 }

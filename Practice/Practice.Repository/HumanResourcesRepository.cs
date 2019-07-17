@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
+    using System.Linq.Dynamic;
     using System.Threading.Tasks;
     using ViewModels = Practice.Core.ViewModels;
 
@@ -17,8 +18,7 @@
         {
             context = new Context();
         }
-
-        public async Task<List<ViewModels.Employee>> GetEmployees()
+        public async Task<ViewModels.DataTablesObject<ViewModels.Employee>> GetEmployeesAsync(ViewModels.SearchFilters searchFilters)
         {
             var employees = await context.vEmployee
                             .Where(e => context.Employee.FirstOrDefault(y => y.BusinessEntityID == e.BusinessEntityID).CurrentFlag == true)
@@ -31,9 +31,19 @@
                                 City = x.City,
                                 PhoneNumber = x.PhoneNumber,
                                 PostalCode = x.PostalCode
-                            }).ToListAsync();
+                            }).ToListAsync(); 
+             var rawData = employees
+                .OrderBy(searchFilters.OrderBy)
+                .Skip(searchFilters.DisplayStart)
+                .Take(searchFilters.DisplayLength)
+                .ToList();
 
-            return employees;
+            return new ViewModels.DataTablesObject<ViewModels.Employee>
+            {
+                aaData = rawData,
+                iTotalDisplayRecords = employees.Count,
+                iTotalRecords = employees.Count
+            };
         }
 
         public async Task<ViewModels.Employee> GetEmployeeById(int id)

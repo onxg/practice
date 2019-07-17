@@ -36,3 +36,48 @@
         </tr>
     </thead>
 </table>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            loadEmployeesTable();
+        });
+
+        function loadEmployeesTable() {
+            $('#data-table-employees').DataTable().destroy();
+            $('#data-table-employees').DataTable({
+                "bServerSide": true,
+                "bProcessing": true,
+                "searching": false,
+                "ajax": {
+                    url: '/Employee/GetAllEmployees',
+                    type: 'POST'
+                },
+                paging: true,
+                ordering: true,
+                bAutoWidth: false,
+                "pageLength": 25,
+                "order": [[1, "asc"]],
+                "columns": [
+                    { "data": "FirstName" },
+                    { "data": "LastName" },
+                    { "data": "PhoneNumber" },
+                    { "data": "Address" },
+                    { "data": "PostalCode" },
+                    { "data": "City" }
+                ],
+                "columnDefs": [
+                    { "targets": 0 },
+                    { "targets": 1 },
+                    { "targets": 2 },
+                    { "targets": 3 },
+                    { "targets": 4 },
+                    { "targets": 5 },
+                ],
+                "dom": 'Rlfrtip',
+                "bDestroy": true,
+                "iDisplayLength": 25,
+                "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
+            });
+        }
+    </script>
+}
