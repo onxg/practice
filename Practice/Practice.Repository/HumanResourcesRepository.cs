@@ -36,32 +36,12 @@
             return employees;
         }
 
-
-        public async Task DeleteEmployee(int id)
-        {
-            if (id == 0)
-            {
-                return;
-            }
-
-            Employee employee = await context.Employee.FirstOrDefaultAsync(x => x.BusinessEntityID == id);
-
-            if (employee == null)
-            {
-                return;
-            }
-
-            employee.CurrentFlag = false;
-            
-            await context.SaveChangesAsync();
-        }
-
         public async Task<ViewModels.Employee> GetEmployeeById(int id)
         {
             if (id == 0)
                 return null;
 
-            var employee = await context.vEmployee.FirstOrDefaultAsync(e => e.BusinessEntityID == id);
+            var employee = await context.vEmployee.SingleAsync(e => e.BusinessEntityID == id);
             if (employee == null)
                 return null;
 
@@ -75,6 +55,95 @@
                 PhoneNumber = employee.PhoneNumber,
                 PostalCode = employee.PostalCode
             };
+        }
+
+        public async Task CreateEmployee(ViewModels.Employee employee)
+        {
+            // Check if employee exists in the db
+            if (await EmployeeExists(employee))
+                throw new InvalidOperationException("This employee already exists.");
+
+            // Create a person entity with all needed relations
+            Person person = new Person
+            {
+                BusinessEntity = new BusinessEntity
+                {
+                    rowguid = Guid.NewGuid(),
+                    ModifiedDate = DateTime.Now,
+                    BusinessEntityAddress = new List<BusinessEntityAddress>
+                    {
+                        new BusinessEntityAddress
+                        {
+                            Address = new Address
+                            {
+                                AddressLine1 = employee.Address,
+                                AddressLine2 = Guid.NewGuid().ToString(), // to avoid bug with 2 different employees having the same address
+                                City = employee.City,
+                                PostalCode = employee.PostalCode,
+                                rowguid = Guid.NewGuid(),
+                                ModifiedDate = DateTime.Now,
+                                StateProvince = await context.StateProvince.FirstOrDefaultAsync()
+                            },
+                            AddressType = await context.AddressType.FirstOrDefaultAsync(at => at.Name == "Home"),
+                            ModifiedDate = DateTime.Now,
+                            rowguid = Guid.NewGuid()
+                        }
+                    }
+                },
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                PersonType = "EM",
+                NameStyle = false,
+                EmailPromotion = 0,
+                rowguid = Guid.NewGuid(),
+                ModifiedDate = DateTime.Now,
+                PersonPhone = new List<PersonPhone> {
+                    new PersonPhone
+                    {
+                        PhoneNumberType = await context.PhoneNumberType.FirstOrDefaultAsync(pnt => pnt.Name == "Cell"),
+                        ModifiedDate = DateTime.Now,
+                        PhoneNumber = employee.PhoneNumber
+                    }
+                }
+            };
+
+            // Create new employee with random properties
+            Random random = new Random();
+            Employee newEmployee = new Employee
+            {
+                Person = person,
+                NationalIDNumber = random.Next().ToString(),
+                LoginID = $"adventure-works/{employee.FirstName.ToLower() + random.Next().ToString()}",
+                JobTitle = "Intern",
+                BirthDate = new DateTime(random.Next(1970, 2000), random.Next(1, 12), random.Next(1, 28)),
+                MaritalStatus = "S",
+                Gender = random.Next(0, 1) == 1 ? "M" : "F",
+                HireDate = DateTime.Now - TimeSpan.FromDays(1),
+                SalariedFlag = false,
+                VacationHours = 25,
+                SickLeaveHours = 0,
+                CurrentFlag = true,
+                rowguid = Guid.NewGuid(),
+                ModifiedDate = DateTime.Now
+            };
+
+            context.Employee.Add(newEmployee);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task DeleteEmployee(int id)
+        {
+            if (id == 0)
+                return;
+
+            Employee employee = await context.Employee.SingleAsync(x => x.BusinessEntityID == id);
+
+            if (employee == null)
+                return;
+
+            employee.CurrentFlag = false;
+
+            await context.SaveChangesAsync();
         }
 
         public async Task UpdateEmployee(ViewModels.Employee employee)
@@ -94,6 +163,8 @@
             var oldPhone = person.PersonPhone.FirstOrDefault();
             if (oldPhone != null)
             {
+                // PersonPhone Primary Key = BusinessEntityID + PhoneNumber + PhoneNumberTypeID 
+                // so PhoneNumber can't be modified then it's removed and added again
                 person.PersonPhone.Remove(oldPhone);
 
                 PersonPhone newPhone = new PersonPhone
@@ -120,5 +191,20 @@
 
             await context.SaveChangesAsync();
         }
+
+        #region Private helper methods
+
+        private async Task<bool> EmployeeExists(ViewModels.Employee employee)
+        {
+            var existingEmployee = await context.vEmployee.FirstOrDefaultAsync(ve => ve.FirstName == employee.FirstName &&
+                                                                                     ve.LastName == employee.LastName &&
+                                                                                     ve.PhoneNumber == employee.PhoneNumber && 
+                                                                                     ve.AddressLine1 == employee.Address &&
+                                                                                     ve.PostalCode == employee.PostalCode && 
+                                                                                     ve.City == employee.City);
+
+            return existingEmployee != null;
+        }
+        #endregion
     }
 }
