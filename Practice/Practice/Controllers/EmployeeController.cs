@@ -1,6 +1,7 @@
 ﻿namespace Practice.Controllers
 {
     using Practice.Core.Repositories;
+    using System;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
@@ -20,20 +21,26 @@
             return View(model);
         }
 
-
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Core.ViewModels.Employee model)
+        public async Task<ActionResult> Create(Core.ViewModels.Employee model)
         {
-            repository.CreateEmployee(model);
+            try
+            {
+                await repository.CreateEmployee(model);
+            }
+            catch (InvalidOperationException e)
+            {
+                ModelState.AddModelError("", e.Message);
+                return View(model);
+            }
+
             return RedirectToAction("Index");
         }
-
-
 
         [HttpPost]
         public async Task<ActionResult> Delete(int? id)
@@ -45,6 +52,7 @@
             }
 
             await repository.DeleteEmployee(id.Value);
+
             return RedirectToAction("Index");
         }
 
@@ -54,7 +62,7 @@
                 return RedirectToAction("Index");
 
             var model = await repository.GetEmployeeById(id.Value);
-            if(model == null)
+            if (model == null)
                 return RedirectToAction("Index");
 
             return View(model);
@@ -67,6 +75,7 @@
                 return RedirectToAction("Edit", new { id = employee.Id });
 
             await repository.UpdateEmployee(employee);
+
             return RedirectToAction("Index");
         }
     }
