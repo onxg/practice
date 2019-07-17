@@ -16,6 +16,12 @@
             );
 
             routes.MapRoute(
+                name: "Stores",
+                url: "stores",
+                defaults: new { controller = "Store", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "Login",
                 url: "login",
                 defaults: new { controller = "Account", action = "Login" }

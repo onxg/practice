@@ -124,6 +124,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="@Url.RouteUrl("Stores")">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Stores</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="@Url.RouteUrl("Tables")">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span>
@@ -176,6 +182,7 @@
         </div>
     </div>
 
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="~/vendor/jquery/jquery.min.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -194,8 +201,7 @@
     <!-- Demo scripts for this page-->
     <script src="~/js/demo/datatables-demo.js"></script>
     <script src="~/js/demo/chart-area-demo.js"></script>
-
-    @RenderSection("scripts", false)
-
+    @RenderSection("Scripts", required: false)
 </body>
+
 </html>
