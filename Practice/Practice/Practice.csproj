@@ -1724,7 +1724,6 @@
     <None Include="Views\forgot-password.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Shared\_mainLayout.cshtml" />
-    <Content Include="Views\Shared\_TableDataPartial.cshtml" />
     <None Include="Views\Side\register.cshtml" />
     <Content Include="Views\Shared\_accountLayout.cshtml" />
     <None Include="Views\Side\tables.cshtml" />
