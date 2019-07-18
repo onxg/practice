@@ -32,7 +32,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.City)
             </th>
-            <th></th>
+            <th>Akcje</th>
         </tr>
     </thead>
 </table>
@@ -44,16 +44,16 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
-      $(document).ready(function () {
+        $(document).ready(function () {
             loadEmployeesTable();
         });
 
         function loadEmployeesTable() {
             $('#data-table-employees').DataTable().destroy();
-            $('#data-table-employees').DataTable({
+            var empTab = $('#data-table-employees').DataTable({
                 "bServerSide": true,
                 "bProcessing": true,
-                "searching": false,
+                "searching": true,
                 "ajax": {
                     url: '/Employee/GetAllEmployees',
                     type: 'POST'
@@ -69,7 +69,16 @@
                     { "data": "PhoneNumber" },
                     { "data": "Address" },
                     { "data": "PostalCode" },
-                    { "data": "City" }
+                    { "data": "City" },
+                    {
+                        "data": "Id",
+                        "render": function (data) {
+                            var link = '<a class="btn btn-primary  btn-sm" href="/Employee/Edit/' + data
+                                + '"> <i class="fas fa-fw fa-edit"></i></a><a class="btn btn-info btn-sm" href="/Employee/Details/' + data
+                                + '">Details</a><a class="btn btn-danger  btn-sm" href="/Employee/Delete/' + data + '">Delete</a>';
+                            return link;
+                        }
+                    }
                 ],
                 "columnDefs": [
                     { "targets": 0 },
@@ -78,14 +87,22 @@
                     { "targets": 3 },
                     { "targets": 4 },
                     { "targets": 5 },
+                    { "targets": 6, "sortable": false }
                 ],
                 "dom": 'Rlfrtip',
                 "bDestroy": true,
                 "iDisplayLength": 25,
                 "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
             });
+
+            $('#data-table-employees_filter input').unbind();
+            $('#data-table-employees_filter input').bind('keyup', function (e) {
+                if (e.keyCode == 13) {
+                    empTab.search(this.value).draw();
+                }
+            });
         }
-      
+
         $("#createEmployeeButton").click(function (e) {
             e.preventDefault();
             $.ajax({

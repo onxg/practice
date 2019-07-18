@@ -82,5 +82,6 @@ namespace Practice.DAL
 
         [Column(TypeName = "xml")]
         public string AdditionalContactInfo { get; set; }
+
     }
 }
