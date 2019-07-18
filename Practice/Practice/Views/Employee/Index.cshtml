@@ -79,7 +79,7 @@
                         "data": "Id",
                         "render": function (data) {
                             var editButton = '<button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editEmployeeModal" data-id="' + data + '">Edit</button>';
-                            var deleteButton = '<button type="button" id="deleteEmployeeButton" class="btn btn-sm btn-danger" data-id="' + data + '">Delete</button>';
+                            var deleteButton = '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteEmployeeModal" data-id="' + data + '">Delete</button>';
                             var actionButtons = editButton + deleteButton;
 
                             return actionButtons;
@@ -223,29 +223,49 @@
         $('#deleteEmployeeModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var id = button.data('id');
+            let modal = $(this);
 
-            $('#hiddenId').val(id);
+            $.ajax({
+                type: "POST",
+                url: "/Employee/GetEmployee/",
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.status == "success") {
+                        modal.find('#hiddenId').val(result.employee.Id);
+                        modal.find('.modal-body').text('Do you want to delete employee: `' + result.employee.FirstName + ' ' + result.employee.LastName + '`?');
+                    } else {
+                        toastr["error"](result.message, "Error");
+                    }
+                },
+                error: function (result) {
+                    toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+                }
+            });
 
-            var modal = $(this);
-            console.log(modal);
-            modal.find('.modal-body').text('Do you want to delete employee with id: ' + id + '?');
         });
 
         $("#deleteEmployeeButton").click(function (e) {
             e.preventDefault();
+            let modal = $("#deleteEmployeeModal");
+
             $.ajax({
                 type: "POST",
                 url: "/Employee/Delete/",
                 data: {
-                    id: $("#hiddenId").val()
+                    id: modal.find("#hiddenId").val()
                 },
                 success: function (result) {
-                    $("#deleteEmployeeModal").modal("hide");
-                     loadEmployeesTable();
-                     toastr["success"](result.message, "Employee deleted successfully");
+                    if (result.status == "success") {
+                        loadEmployeesTable();
+                        modal.modal("hide");
+                        toastr["success"](result.message, "Success");
+                    } else {
+                        toastr["error"](result.message, "Error");
+                    }
                 },
                 error: function (result) {
-                    alert('error');
                     toastr["error"]("Oops. Something went wrong. Try again.", "Error");
                 }
             });
