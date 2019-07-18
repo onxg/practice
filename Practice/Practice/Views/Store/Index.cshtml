@@ -11,6 +11,7 @@
             <th>Kod pocztowy</th>
             <th>Miasto</th>
             <th>Kraj</th>
+            <th>Akcje</th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -35,6 +36,7 @@
                 paging: true,
                 ordering: true,
                 bAutoWidth: false,
+                "searching": true,
                 "pageLength": 25,
                 "order": [[1, "asc"]],
                 "columns": [
@@ -43,6 +45,13 @@
                     { "data": "PostalCode" },
                     { "data": "City" },
                     { "data": "Country" },
+                    {
+                        "data": "Id",
+                        "render": function (data) {
+                            var link = '<a href="/Employee/Edit/' + data + '">Edit</a>';
+                            return link;
+                        }
+                    }
                 ],
                 "columnDefs": [
                     { "targets": 0 },
@@ -50,6 +59,7 @@
                     { "targets": 2 },
                     { "targets": 3 },
                     { "targets": 4 },
+                    { "targets": 5, "sortable": false }
                 ],
                 "dom": 'Rlfrtip',
                 "bDestroy": true,
