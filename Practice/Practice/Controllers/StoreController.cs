@@ -59,9 +59,6 @@
                 case "4":
                     orderBy = "Country";
                     break;
-                case "5":
-                    orderBy = "StatusId";
-                    break;
             }
 
             orderBy = (orderBy + " " + form["order[0][dir]"]).ToUpper();
