@@ -21,6 +21,7 @@
         {
             var storeItems = await context.vStoreWithAddresses.Select(x => new ViewModels.Store()
             {
+                Id = x.BusinessEntityID,
                 Address = x.AddressLine1,
                 City = x.City,
                 Country = x.CountryRegionName,
