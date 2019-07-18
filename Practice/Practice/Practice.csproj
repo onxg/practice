@@ -55,7 +55,19 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -1730,7 +1742,7 @@
     <Content Include="Views\Side\blank.cshtml" />
     <Content Include="Views\Side\charts.cshtml" />
     <Content Include="Views\Side\forgot-password.cshtml" />
-    <None Include="Views\Side\register.cshtml" />
+    <None Include="Views\Account\register.cshtml" />
     <Content Include="Views\Shared\_accountLayout.cshtml" />
     <None Include="Views\Side\tables.cshtml" />
     <Content Include="Web.config" />
@@ -1919,6 +1931,10 @@
     <ProjectReference Include="..\Practice.Core\Practice.Core.csproj">
       <Project>{419133b3-27f5-4980-bd22-e1b03c876c67}</Project>
       <Name>Practice.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Practice.DAL\Practice.DAL.csproj">
+      <Project>{9428CBCA-DDB8-4AE1-8D47-56B045EBDFF7}</Project>
+      <Name>Practice.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Practice.Repository\Practice.Repository.csproj">
       <Project>{5594fce0-f8b7-49dc-826f-5152f1720728}</Project>
