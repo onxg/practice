@@ -70,7 +70,17 @@
                     { "data": "PhoneNumber" },
                     { "data": "Address" },
                     { "data": "PostalCode" },
-                    { "data": "City" }
+                    { "data": "City" },
+                    {
+                        "data": "Id",
+                        "render": function (data) {
+                            var editButton = '<button type="button" id="editEmployeeButton" class="btn btn-sm btn-warning" data-id="' + data + '">Edit</button>';
+                            var deleteButton = '<button type="button" id="deleteEmployeeButton" class="btn btn-sm btn-danger" data-id="' + data + '">Delete</button>';
+                            var actionButtons = editButton + deleteButton;
+
+                            return actionButtons;
+                        }
+                    }
                 ],
                 "columnDefs": [
                     { "targets": 0 },
