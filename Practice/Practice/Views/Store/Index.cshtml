@@ -25,7 +25,7 @@
 
         function loadSubscriptionsTable() {
             $('#table').DataTable().destroy();
-            $('#table').DataTable({
+            var tab = $('#table').DataTable({
                 "bServerSide": true,
                 "bProcessing": true,
                 "searching": false,
@@ -65,6 +65,12 @@
                 "bDestroy": true,
                 "iDisplayLength": 25,
                 "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
+            });
+            $('#table_filter input').unbind();
+            $('#table_filter input').bind('keyup', function (e) {
+                if (e.keyCode == 13) {
+                    tab.search(this.value).draw();
+                }
             });
         }
     </script>
