@@ -47,7 +47,6 @@
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        [HttpPost]
         public async Task<ActionResult> Delete(int? id)
         {
 
