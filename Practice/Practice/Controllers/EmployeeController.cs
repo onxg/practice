@@ -1,8 +1,9 @@
 ﻿namespace Practice.Controllers
 {
     using Practice.Core.Repositories;
+    using Practice.Core.ViewModels;
     using System;
-    using System.Net;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
@@ -14,14 +15,33 @@
         {
             repository = _repository;
         }
-
-        public async Task<ActionResult> Index()
+        public ActionResult Create()
         {
-            var model = await repository.GetEmployees();
-
-            return View(model);
+            return View();
+        }
+        public ActionResult Index()
+        {
+            return View();
         }
 
+        public async Task<ActionResult> GetAllEmployees(FormCollection form)
+        {
+            var searchFilters = new SearchFilters(form)
+            {
+                OrderBy = GetOrderBy(form)
+            };
+
+            var result = await repository.GetEmployeesAsync(searchFilters);
+
+            return this.Json(
+                new
+                {
+                    iTotalRecords = result.iTotalRecords,
+                    iTotalDisplayRecords = result.iTotalDisplayRecords,
+                    aaData = result.aaData
+                }, JsonRequestBehavior.AllowGet);
+        }
+        
         [HttpPost]
         public async Task<ActionResult> Create(FormCollection formCollection)
         {
@@ -82,6 +102,49 @@
             await repository.UpdateEmployee(employee);
 
             return RedirectToAction("Index");
+        }
+        public async Task<ActionResult> Details(int? id)
+        {
+            if (!id.HasValue || id == 0)
+                return RedirectToAction("Index");
+
+            var model = await repository.GetEmployeeById(id.Value);
+            if (model == null)
+                return RedirectToAction("Index");
+
+            return View(model);
+        }
+
+        private string GetOrderBy(FormCollection form)
+        {
+            string orderBy = form["order[0][column]"];
+
+            switch (orderBy)
+            {
+                case "0":
+                default:
+                    orderBy = "FirstName";
+                    break;
+                case "1":
+                    orderBy = "LastName";
+                    break;
+                case "2":
+                    orderBy = "PhoneNumber";
+                    break;
+                case "3":
+                    orderBy = "Address";
+                    break;
+                case "4":
+                    orderBy = "PostalCode";
+                    break;
+                case "5":
+                    orderBy = "City";
+                    break;
+            }
+
+            orderBy = (orderBy + " " + form["order[0][dir]"]).ToUpper();
+
+            return orderBy;
         }
     }
 }
