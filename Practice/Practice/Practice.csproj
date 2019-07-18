@@ -109,6 +109,7 @@
     <Content Include="js\demo\chart-bar-demo.js" />
     <Content Include="js\demo\chart-pie-demo.js" />
     <Content Include="js\demo\datatables-demo.js" />
+    <Content Include="js\employees.js" />
     <Content Include="js\sb-admin.js" />
     <Content Include="js\sb-admin.min.js" />
     <Content Include="content\toastr.scss" />
@@ -1722,6 +1723,7 @@
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\CreateModalPartial.cshtml" />
     <Content Include="Views\Employee\EditModalPartial.cshtml" />
+    <Content Include="Views\Employee\DeleteModalPartial.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Shared\_mainLayout.cshtml" />
     <Content Include="Views\Side\404.cshtml" />
