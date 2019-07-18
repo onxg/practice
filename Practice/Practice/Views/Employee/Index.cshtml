@@ -32,69 +32,27 @@
             <th>
                 @Html.DisplayNameFor(model => model.City)
             </th>
-            <th></th>
+            <th>
+            </th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PostalCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.City)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@item.Id">Delete</button>
-                </td>
-            </tr>
-        }
-    </tbody>
+
 
 </table>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Delete</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 @Html.Partial("CreateModalPartial")
+@Html.Partial("DeleteModalPartial")
+
+
 
 @section Scripts {
     <script src="~/js/demo/datatables-demo.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
-      $(document).ready(function () {
+        $(document).ready(function () {
             loadEmployeesTable();
         });
 
@@ -119,7 +77,16 @@
                     { "data": "PhoneNumber" },
                     { "data": "Address" },
                     { "data": "PostalCode" },
-                    { "data": "City" }
+                    { "data": "City" },
+                    {
+                        "data": "Id",
+                        "render": function (data) {
+                            var editButton = '<button type="button" class="btn btn-sm btn-warning" data-id="' + data + '">Edit</button>';
+                            var deleteButton = '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteEmployeeModal" data-id="' + data + '">Delete</button>';
+                            var actionButtons = editButton + deleteButton;
+                            return actionButtons;
+                        }
+                    }
                 ],
                 "columnDefs": [
                     { "targets": 0 },
@@ -135,7 +102,7 @@
                 "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
             });
         }
-      
+
         $("#createEmployeeButton").click(function (e) {
             e.preventDefault();
             $.ajax({
@@ -165,17 +132,34 @@
                 }
             });
         });
+
+        $('#deleteEmployeeModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+
+            var modal = $(this);
+            console.log(modal);
+            modal.find('.modal-body').text('Do you want to delete employee with id: ' + id + '?');
+        });
+
+        $("#deleteEmployeeButton").click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/Employee/Delete/",
+                data: {
+                    id: $("#Id").val();
+                },
+                success: function (result) {
+                    $("#deleteEmployeeModal").modal("hide");
+
+                    alert("Employee has been succesfully deleted!")
+                },
+                error: function (result) {
+                    alert('error');
+                }
+            });
+        });
     </script>
 
-    <script>
-        $('#exampleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('whatever') // Extract info from data-* attributes
-         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        modal.find('.modal-title').text('Confirm Delete')
-        modal.find('.modal-body input').val(recipient)
-        })
-    </script>
 }
