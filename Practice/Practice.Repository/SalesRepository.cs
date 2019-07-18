@@ -29,6 +29,17 @@
                 PostalCode = x.PostalCode
             }).ToListAsync();
 
+            if (!string.IsNullOrEmpty(searchFilters.SearchValue))
+            {
+                var keyword = searchFilters.SearchValue.ToLower().Trim();
+                storeItems = storeItems
+                    .Where(s=>s.Name.Contains(keyword)||
+                    s.Address.Contains(keyword)||
+                    s.PostalCode.Contains(keyword) ||
+                    s.City.Contains(keyword)||
+                    s.Country.Contains(keyword))
+                    .ToList();
+            }
             var rawData = storeItems
                 .OrderBy(searchFilters.OrderBy)
                 .Skip(searchFilters.DisplayStart)
