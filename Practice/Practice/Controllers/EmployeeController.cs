@@ -55,17 +55,21 @@
                 PostalCode = formCollection["postalCode"],
                 City = formCollection["city"]
             };
-            
+
+            object response;
+
             try
             {
                 await repository.CreateEmployee(newEmployee);
+
+                response = new { status = "success", message = "Employee has been successfully created." };
             }
             catch (InvalidOperationException e)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                response = new { status = "error", message = e.Message };
             }
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return Json(response);
         }
 
         [HttpPost]

@@ -100,6 +100,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\toastr.css" />
+    <Content Include="content\toastr.min.css" />
     <Content Include="css\sb-admin.css" />
     <Content Include="css\sb-admin.min.css" />
     <Content Include="Global.asax" />
@@ -109,6 +111,8 @@
     <Content Include="js\demo\datatables-demo.js" />
     <Content Include="js\sb-admin.js" />
     <Content Include="js\sb-admin.min.js" />
+    <Content Include="content\toastr.scss" />
+    <Content Include="content\toastr.less" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -119,6 +123,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="vendor\bootstrap\js\bootstrap.bundle.js" />
     <Content Include="vendor\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="vendor\bootstrap\js\bootstrap.js" />

@@ -20,6 +20,7 @@
         }
         public async Task<ViewModels.DataTablesObject<ViewModels.Employee>> GetEmployeesAsync(ViewModels.SearchFilters searchFilters)
         {
+
             var employees = await context.vEmployee
                             .Where(e => context.Employee.FirstOrDefault(y => y.BusinessEntityID == e.BusinessEntityID).CurrentFlag == true)
                             .Select(x => new ViewModels.Employee()
@@ -31,12 +32,29 @@
                                 City = x.City,
                                 PhoneNumber = x.PhoneNumber,
                                 PostalCode = x.PostalCode
-                            }).ToListAsync(); 
-             var rawData = employees
-                .OrderBy(searchFilters.OrderBy)
-                .Skip(searchFilters.DisplayStart)
-                .Take(searchFilters.DisplayLength)
-                .ToList();
+                            }).ToListAsync();
+
+            if (!string.IsNullOrEmpty(searchFilters.SearchValue))
+            {
+                var keyword = searchFilters.SearchValue.ToLower().Trim();
+                employees = employees
+                    .Where(e => e.FirstName.ToString().Contains(keyword)
+                    || e.LastName.Contains(keyword)
+                    || e.PhoneNumber.Contains(keyword)
+                    || e.Address.Contains(keyword)
+                    || e.PostalCode.Contains(keyword)
+                    || e.City.Contains(keyword)
+                    )
+                    .ToList();
+            }
+
+            var rawData = employees
+              .OrderBy(searchFilters.OrderBy)
+              .Skip(searchFilters.DisplayStart)
+              .Take(searchFilters.DisplayLength)
+              .ToList();
+
+
 
             return new ViewModels.DataTablesObject<ViewModels.Employee>
             {
