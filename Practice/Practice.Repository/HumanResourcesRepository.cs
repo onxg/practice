@@ -39,12 +39,12 @@
             {
                 var keyword = searchFilters.SearchValue.ToLower().Trim();
                 employees = employees
-                    .Where(e => e.FirstName.ToString().Contains(keyword)
-                    || e.LastName.Contains(keyword)
-                    || e.PhoneNumber.Contains(keyword)
-                    || e.Address.Contains(keyword)
-                    || e.PostalCode.Contains(keyword)
-                    || e.City.Contains(keyword)
+                    .Where(e => e.FirstName.ToLower().Contains(keyword)
+                    || e.LastName.ToLower().Contains(keyword)
+                    || e.PhoneNumber.ToLower().Contains(keyword)
+                    || e.Address.ToLower().Contains(keyword)
+                    || e.PostalCode.ToLower().Contains(keyword)
+                    || e.City.ToLower().Contains(keyword)
                     )
                     .ToList();
             }
