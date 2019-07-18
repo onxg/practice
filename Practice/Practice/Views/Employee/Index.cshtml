@@ -43,6 +43,7 @@
     <script src="~/js/demo/datatables-demo.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function () {
             loadEmployeesTable();
@@ -88,32 +89,41 @@
       
         $("#createEmployeeButton").click(function (e) {
             e.preventDefault();
-            $.ajax({
-                type: "POST",
-                url: "/Employee/Create/",
-                data: {
-                    firstName: $("#FirstName").val(),
-                    lastName: $("#LastName").val(),
-                    phoneNumber: $("#PhoneNumber").val(),
-                    address: $("#Address").val(),
-                    postalCode: $("#PostalCode").val(),
-                    city: $("#City").val()
-                },
-                success: function (result) {
-                    $("#createEmployeeModal").modal("hide");
-                    $("#FirstName").val("");
-                    $("#LastName").val("");
-                    $("#PhoneNumber").val("");
-                    $("#Address").val("");
-                    $("#PostalCode").val("");
-                    $("#City").val("");
 
-                    alert("Employee has been succesfully created!")
-                },
-                error: function (result) {
-                    alert('error');
-                }
-            });
+            var validationSuccessed = $("#createEmployeeForm").validate().form();
+            if (validationSuccessed == true) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Employee/Create/",
+                    data: {
+                        firstName: $("#FirstName").val(),
+                        lastName: $("#LastName").val(),
+                        phoneNumber: $("#PhoneNumber").val(),
+                        address: $("#Address").val(),
+                        postalCode: $("#PostalCode").val(),
+                        city: $("#City").val()
+                    },
+                    success: function (result) {
+                        if (result.status == "success") {
+                            loadEmployeesTable();
+                            $("#createEmployeeModal").modal("hide");
+                            toastr["success"](result.message, "Success");
+
+                            $("#FirstName").val("");
+                            $("#LastName").val("");
+                            $("#PhoneNumber").val("");
+                            $("#Address").val("");
+                            $("#PostalCode").val("");
+                            $("#City").val("");
+                        } else {
+                            toastr["error"](result.message, "Error");
+                        }                        
+                    },
+                    error: function (result) {
+                        toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+                    }
+                });
+            }
         });
     </script>
 }
