@@ -105,13 +105,13 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                     <h6 class="dropdown-header">Login Screens:</h6>
-                    <a class="dropdown-item" href="@Url.RouteUrl("Login")">Login</a>
-                    <a class="dropdown-item" href="@Url.RouteUrl("Register")">Register</a>
-                    <a class="dropdown-item" href="@Url.RouteUrl("Forgotten")">Forgot Password</a>
+                    <p><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#loginModal">Login</button></p>
+                    <p><button type="button" class="btn btn-info btn-sm"><a href="@Url.RouteUrl("Register")" style="color:white; text-decoration:none;">Register</a></button></p>
+                    <p><button type="button" class="btn btn-info btn-sm"><a href="@Url.RouteUrl("Forgotten")" style="color:white; text-decoration:none;">Forgot Password</a></button></p>
                     <div class="dropdown-divider"></div>
                     <h6 class="dropdown-header">Other Pages:</h6>
-                    <a class="dropdown-item" href="@Url.RouteUrl("NotFound")">404 Page</a>
-                    <a class="dropdown-item" href="@Url.RouteUrl("Blank")">Blank Page</a>
+                    <p><button type="button" class="btn btn-info btn-sm"><a  href="@Url.RouteUrl("NotFound")" style="color:white; text-decoration:none;">404 Page</a></button></p>
+                    <p><button type="button" class="btn btn-info btn-sm"><a href="@Url.RouteUrl("Blank")" style="color:white; text-decoration:none;">Blank Page</a></button></p>
                 </div>
             </li>
             <li class="nav-item">
@@ -165,7 +165,7 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
+    @Html.Partial("LoginModalPartial")
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
