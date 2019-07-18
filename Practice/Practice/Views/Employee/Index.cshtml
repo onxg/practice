@@ -10,9 +10,10 @@
 <p>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createEmployeeModal">Create</button>
 </p>
-<table id="dataTable" class="table table-bordered">
+
+<table id="data-table-employees" class="table  table-striped table-bordered">
     <thead>
-        <tr>
+        <tr class="table-success">
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -93,6 +94,48 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
+      $(document).ready(function () {
+            loadEmployeesTable();
+        });
+
+        function loadEmployeesTable() {
+            $('#data-table-employees').DataTable().destroy();
+            $('#data-table-employees').DataTable({
+                "bServerSide": true,
+                "bProcessing": true,
+                "searching": false,
+                "ajax": {
+                    url: '/Employee/GetAllEmployees',
+                    type: 'POST'
+                },
+                paging: true,
+                ordering: true,
+                bAutoWidth: false,
+                "pageLength": 25,
+                "order": [[1, "asc"]],
+                "columns": [
+                    { "data": "FirstName" },
+                    { "data": "LastName" },
+                    { "data": "PhoneNumber" },
+                    { "data": "Address" },
+                    { "data": "PostalCode" },
+                    { "data": "City" }
+                ],
+                "columnDefs": [
+                    { "targets": 0 },
+                    { "targets": 1 },
+                    { "targets": 2 },
+                    { "targets": 3 },
+                    { "targets": 4 },
+                    { "targets": 5 },
+                ],
+                "dom": 'Rlfrtip',
+                "bDestroy": true,
+                "iDisplayLength": 25,
+                "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
+            });
+        }
+      
         $("#createEmployeeButton").click(function (e) {
             e.preventDefault();
             $.ajax({
@@ -136,4 +179,3 @@
         })
     </script>
 }
-
