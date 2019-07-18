@@ -16,10 +16,12 @@
         {
             repository = _repository;
         }
+
         public ActionResult Create()
         {
             return View();
         }
+
         public ActionResult Index()
         {
             return View();
@@ -42,7 +44,17 @@
                     aaData = result.aaData
                 }, JsonRequestBehavior.AllowGet);
         }
-        
+
+        public async Task<ActionResult> GetEmployee(FormCollection formCollection)
+        {
+            if (!int.TryParse(formCollection["id"], out int id) || id == 0)
+                return Json(new { status = "error", message = "Invalid id." });
+
+            var employee = await repository.GetEmployeeById(id);
+
+            return Json(new { status = "success", employee });
+        }
+
         [HttpPost]
         public async Task<ActionResult> Create(FormCollection formCollection)
         {
@@ -56,20 +68,45 @@
                 City = formCollection["city"]
             };
 
-            object response;
-
             try
             {
                 await repository.CreateEmployee(newEmployee);
-
-                response = new { status = "success", message = "Employee has been successfully created." };
             }
             catch (InvalidOperationException e)
             {
-                response = new { status = "error", message = e.Message };
+                return Json(new { status = "error", message = e.Message });
             }
 
-            return Json(response);
+            return Json(new { status = "success", message = "Employee has been successfully created." });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(FormCollection formCollection)
+        {
+            if (!int.TryParse(formCollection["id"], out int id) || id == 0)
+                return Json(new { status = "error", message = "Invalid id." });
+
+            Core.ViewModels.Employee employee = new Core.ViewModels.Employee
+            {
+                Id = id,
+                FirstName = formCollection["firstName"],
+                LastName = formCollection["lastName"],
+                PhoneNumber = formCollection["phoneNumber"],
+                Address = formCollection["address"],
+                PostalCode = formCollection["postalCode"],
+                City = formCollection["city"]
+            };
+
+            try
+            {
+                await repository.UpdateEmployee(employee);
+            }
+            catch (InvalidOperationException e)
+            {
+                return Json(new { status = "error", message = e.Message });
+            }
+
+            return Json(new { status = "success", message = "Employee has been successfully edited." });
         }
 
         [HttpPost]
@@ -86,28 +123,6 @@
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (!id.HasValue || id == 0)
-                return RedirectToAction("Index");
-
-            var model = await repository.GetEmployeeById(id.Value);
-            if (model == null)
-                return RedirectToAction("Index");
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Edit(Core.ViewModels.Employee employee)
-        {
-            if (!ModelState.IsValid)
-                return RedirectToAction("Edit", new { id = employee.Id });
-
-            await repository.UpdateEmployee(employee);
-
-            return RedirectToAction("Index");
-        }
         public async Task<ActionResult> Details(int? id)
         {
             if (!id.HasValue || id == 0)

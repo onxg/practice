@@ -38,6 +38,7 @@
 </table>
 
 @Html.Partial("CreateModalPartial")
+@Html.Partial("EditModalPartial")
 
 @section Scripts {
     <script src="~/js/demo/datatables-demo.js"></script>
@@ -74,10 +75,11 @@
                     {
                         "data": "Id",
                         "render": function (data) {
-                            var link = '<a class="btn btn-primary  btn-sm" href="/Employee/Edit/' + data
-                                + '"> <i class="fas fa-fw fa-edit"></i></a><a class="btn btn-info btn-sm" href="/Employee/Details/' + data
-                                + '">Details</a><a class="btn btn-danger  btn-sm" href="/Employee/Delete/' + data + '">Delete</a>';
-                            return link;
+                            var editButton = '<button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editEmployeeModal" data-id="' + data + '">Edit</button>';
+                            var deleteButton = '<button type="button" id="deleteEmployeeButton" class="btn btn-sm btn-danger" data-id="' + data + '">Delete</button>';
+                            var actionButtons = editButton + deleteButton;
+
+                            return actionButtons;
                         }
                     }
                 ],
@@ -106,19 +108,20 @@
 
         $("#createEmployeeButton").click(function (e) {
             e.preventDefault();
+            let modal = $("#createEmployeeModal");
 
-            var validationSuccessed = $("#createEmployeeForm").validate().form();
-            if (validationSuccessed == true) {
+            let validationSucceed = $("#createEmployeeForm").validate().form();
+            if (validationSucceed == true) {
                 $.ajax({
                     type: "POST",
                     url: "/Employee/Create/",
                     data: {
-                        firstName: $("#FirstName").val(),
-                        lastName: $("#LastName").val(),
-                        phoneNumber: $("#PhoneNumber").val(),
-                        address: $("#Address").val(),
-                        postalCode: $("#PostalCode").val(),
-                        city: $("#City").val()
+                        firstName: modal.find("#FirstName").val(),
+                        lastName: modal.find("#LastName").val(),
+                        phoneNumber: modal.find("#PhoneNumber").val(),
+                        address: modal.find("#Address").val(),
+                        postalCode: modal.find("#PostalCode").val(),
+                        city: modal.find("#City").val()
                     },
                     success: function (result) {
                         if (result.status == "success") {
@@ -126,15 +129,86 @@
                             $("#createEmployeeModal").modal("hide");
                             toastr["success"](result.message, "Success");
 
-                            $("#FirstName").val("");
-                            $("#LastName").val("");
-                            $("#PhoneNumber").val("");
-                            $("#Address").val("");
-                            $("#PostalCode").val("");
-                            $("#City").val("");
+                            modal.find("#FirstName").val("");
+                            modal.find("#LastName").val("");
+                            modal.find("#PhoneNumber").val("");
+                            modal.find("#Address").val("");
+                            modal.find("#PostalCode").val("");
+                            modal.find("#City").val("");
                         } else {
                             toastr["error"](result.message, "Error");
-                        }                        
+                        }
+                    },
+                    error: function (result) {
+                        toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+                    }
+                });
+            }
+        });
+
+        $('#editEmployeeModal').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget);
+            let id = button.data('id');
+            let modal = $(this);
+
+            $.ajax({
+                type: "POST",
+                url: "/Employee/GetEmployee/",
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.status == "success") {
+                        modal.find('#Id').val(result.employee.Id);
+                        modal.find('#FirstName').val(result.employee.FirstName);
+                        modal.find('#LastName').val(result.employee.LastName);
+                        modal.find('#PhoneNumber').val(result.employee.PhoneNumber);
+                        modal.find('#Address').val(result.employee.Address);
+                        modal.find('#PostalCode').val(result.employee.PostalCode);
+                        modal.find('#City').val(result.employee.City);
+                    } else {
+                        toastr["error"](result.message, "Error");
+                    }
+                },
+                error: function (result) {
+                    toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+                }
+            });
+        });
+
+        $("#saveEmployeeButton").click(function (e) {
+            e.preventDefault();
+            let modal = $("#editEmployeeModal");
+
+            let validationSucceed = $("#editEmployeeForm").validate().form();
+            if (validationSucceed == true) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Employee/Edit/",
+                    data: {
+                        id: modal.find("#Id").val(),
+                        firstName: modal.find("#FirstName").val(),
+                        lastName: modal.find("#LastName").val(),
+                        phoneNumber: modal.find("#PhoneNumber").val(),
+                        address: modal.find("#Address").val(),
+                        postalCode: modal.find("#PostalCode").val(),
+                        city: modal.find("#City").val()
+                    },
+                    success: function (result) {
+                        if (result.status == "success") {
+                            loadEmployeesTable();
+                            modal.modal("hide");
+                            toastr["success"](result.message, "Success");
+
+                            modal.find("#FirstName").val("");
+                            modal.find("#LastName").val("");
+                            modal.find("#PhoneNumber").val("");
+                            modal.find("#Address").val("");
+                            modal.find("#PostalCode").val("");
+                            modal.find("#City").val("");
+                        } else {
+                            toastr["error"](result.message, "Error");
+                        }
                     },
                     error: function (result) {
                         toastr["error"]("Oops. Something went wrong. Try again.", "Error");
