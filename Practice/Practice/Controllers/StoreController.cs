@@ -19,7 +19,7 @@
             return View();
         }
 
-        public async Task<ActionResult> GetAllStores(FormCollection form)
+        public async Task<ActionResult> GetAllStoresAsync(FormCollection form)
         {
             var searchFilters = new SearchFilters(form)
             {
