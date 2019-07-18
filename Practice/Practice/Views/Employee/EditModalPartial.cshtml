@@ -1,0 +1,77 @@
+﻿<div class="modal fade" id="editEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEmployeeModalLabel">Edit employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editEmployeeForm">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <input type="hidden" id="Id" value="">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="FirstName">First name</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="First name is required." id="FirstName" name="FirstName" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="LastName">Last name</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Last name is required." id="LastName" name="LastName" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="PhoneNumber">Phone number</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Phone number is required." id="PhoneNumber" name="PhoneNumber" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="Address">Address</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Address is required." id="Address" name="Address" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="Address" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="PostalCode">Postal code</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Postal code is required." id="PostalCode" name="PostalCode" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="PostalCode" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="City">City</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="City is required." id="City" name="City" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="City" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="saveEmployeeButton">Save changes</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
