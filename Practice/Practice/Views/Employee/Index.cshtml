@@ -39,12 +39,8 @@
 
 </table>
 
-
-
 @Html.Partial("CreateModalPartial")
 @Html.Partial("DeleteModalPartial")
-
-
 
 @section Scripts {
     <script src="~/js/demo/datatables-demo.js"></script>
@@ -154,6 +150,8 @@
             var button = $(event.relatedTarget);
             var id = button.data('id');
 
+            $('#hiddenId').val(id);
+
             var modal = $(this);
             console.log(modal);
             modal.find('.modal-body').text('Do you want to delete employee with id: ' + id + '?');
@@ -165,15 +163,16 @@
                 type: "POST",
                 url: "/Employee/Delete/",
                 data: {
-                    id: $("#Id").val();
+                    id: $("#hiddenId").val()
                 },
                 success: function (result) {
                     $("#deleteEmployeeModal").modal("hide");
-
-                    alert("Employee has been succesfully deleted!")
+                     loadEmployeesTable();
+                     toastr["success"](result.message, "Employee deleted successfully");
                 },
                 error: function (result) {
                     alert('error');
+                    toastr["error"]("Oops. Something went wrong. Try again.", "Error");
                 }
             });
         });
