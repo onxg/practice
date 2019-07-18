@@ -1730,6 +1730,7 @@
     <Content Include="Views\Side\blank.cshtml" />
     <Content Include="Views\Side\charts.cshtml" />
     <Content Include="Views\Side\forgot-password.cshtml" />
+    <Content Include="Views\Shared\LoginModalPartial.cshtml" />
     <None Include="Views\Side\register.cshtml" />
     <Content Include="Views\Shared\_accountLayout.cshtml" />
     <None Include="Views\Side\tables.cshtml" />
