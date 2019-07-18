@@ -105,6 +105,7 @@
                     },
                     success: function (result) {
                         if (result.status == "success") {
+                            loadEmployeesTable();
                             $("#createEmployeeModal").modal("hide");
                             toastr["success"](result.message, "Success");
 
@@ -116,9 +117,7 @@
                             $("#City").val("");
                         } else {
                             toastr["error"](result.message, "Error");
-                        }
-
-                        // TODO: Refresh the datatable
+                        }                        
                     },
                     error: function (result) {
                         toastr["error"]("Oops. Something went wrong. Try again.", "Error");
