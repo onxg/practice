@@ -33,11 +33,11 @@
             {
                 var keyword = searchFilters.SearchValue.ToLower().Trim();
                 storeItems = storeItems
-                    .Where(s=>s.Name.Contains(keyword)||
-                    s.Address.Contains(keyword)||
-                    s.PostalCode.Contains(keyword) ||
-                    s.City.Contains(keyword)||
-                    s.Country.Contains(keyword))
+                    .Where(s=>s.Name.ToLower().Contains(keyword)||
+                    s.Address.ToLower().Contains(keyword)||
+                    s.PostalCode.ToLower().Contains(keyword) ||
+                    s.City.ToLower().Contains(keyword)||
+                    s.Country.ToLower().Contains(keyword))
                     .ToList();
             }
             var rawData = storeItems
