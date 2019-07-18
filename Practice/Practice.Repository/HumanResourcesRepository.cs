@@ -18,6 +18,7 @@
         {
             context = new Context();
         }
+
         public async Task<ViewModels.DataTablesObject<ViewModels.Employee>> GetEmployeesAsync(ViewModels.SearchFilters searchFilters)
         {
 
@@ -54,15 +55,12 @@
               .Take(searchFilters.DisplayLength)
               .ToList();
 
-
-
             return new ViewModels.DataTablesObject<ViewModels.Employee>
             {
                 aaData = rawData,
                 iTotalDisplayRecords = employees.Count,
                 iTotalRecords = employees.Count
             };
-
         }
 
         public async Task<ViewModels.Employee> GetEmployeeById(int id)
@@ -175,7 +173,7 @@
             if (employee == null || employee.Id == 0)
                 return;
 
-            var person = await context.Person.FirstOrDefaultAsync(p => p.BusinessEntityID == employee.Id);
+            var person = await context.Person.SingleOrDefaultAsync(p => p.BusinessEntityID == employee.Id);
             if (person == null)
                 return;
 
