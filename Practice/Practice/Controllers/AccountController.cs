@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Practice.Core.Services;
 using Practice.Core.ViewModels;
 using Practice.DAL.Identity;
 using System.Linq;
@@ -13,13 +12,11 @@ namespace Practice.Controllers
     {
         private readonly UserManager<ApplicationUser, string> _userManager;
         private readonly SignInManager<ApplicationUser, string> _signInManager;
-        private readonly IEmailService _emailService;
 
-        public AccountController(UserManager<ApplicationUser, string> userManager, SignInManager<ApplicationUser, string> signInManager, IEmailService emailService)
+        public AccountController(UserManager<ApplicationUser, string> userManager, SignInManager<ApplicationUser, string> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailService = emailService;
         }
 
         public ActionResult Login() => View();
@@ -50,6 +47,7 @@ namespace Practice.Controllers
             _signInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
+
         public ActionResult Register() => View();
 
         [HttpPost]
@@ -70,9 +68,9 @@ namespace Practice.Controllers
 
             string code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
             var callbackUrl = Url.RouteUrl("ActivateAccount", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
-            await _emailService.SendAsync(new EmailMessage(model.Email, "Confirm your account", "Please confirm your account by clicking here: " + callbackUrl + ""));
+            await _userManager.SendEmailAsync(user.Id, "Activate your account", "Please activate your account by clicking here: " + callbackUrl + "");
 
-            TempData["Toastr"] = new Toastr { Type = "success", Title = "Success", Message = "Your account has been created. Please confirm your email address." };
+            TempData["Toastr"] = new Toastr { Type = "success", Title = "Success", Message = "Your account has been created. You have to activate your account before you could log in." };
 
             return RedirectToAction("Index", "Home");
         }
@@ -84,7 +82,7 @@ namespace Practice.Controllers
             if(!result.Succeeded)
                 TempData["Toastr"] = new Toastr { Type = "error", Title = "Error", Message = result.Errors.First() };
 
-            TempData["Toastr"] = new Toastr { Type = "success", Title = "Success", Message = "Your email address has been confirmed. You can log in." };
+            TempData["Toastr"] = new Toastr { Type = "success", Title = "Success", Message = "Your account is activated. You can log in now." };
 
             return RedirectToAction("Index", "Home");
         }
