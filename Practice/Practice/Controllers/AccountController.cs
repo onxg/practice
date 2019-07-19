@@ -12,10 +12,10 @@ namespace Practice.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser, string> _userManager;
         private readonly SignInManager<ApplicationUser, string> _signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser, string> signInManager)
+        public AccountController(UserManager<ApplicationUser, string> userManager, SignInManager<ApplicationUser, string> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
