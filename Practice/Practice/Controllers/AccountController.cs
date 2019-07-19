@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Practice.Core.Services;
 using Practice.Core.ViewModels;
 using Practice.DAL.Identity;
 using System.Linq;
@@ -13,13 +12,11 @@ namespace Practice.Controllers
     {
         private readonly UserManager<ApplicationUser, string> _userManager;
         private readonly SignInManager<ApplicationUser, string> _signInManager;
-        private readonly IEmailService _emailService;
 
-        public AccountController(UserManager<ApplicationUser, string> userManager, SignInManager<ApplicationUser, string> signInManager, IEmailService emailService)
+        public AccountController(UserManager<ApplicationUser, string> userManager, SignInManager<ApplicationUser, string> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailService = emailService;
         }
 
         public ActionResult Login() => View();
@@ -70,7 +67,7 @@ namespace Practice.Controllers
 
             string code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
             var callbackUrl = Url.RouteUrl("ActivateAccount", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
-            await _emailService.SendAsync(new EmailMessage(model.Email, "Confirm your account", "Please confirm your account by clicking here: " + callbackUrl + ""));
+            await _userManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking here: " + callbackUrl + "");
 
             TempData["Toastr"] = new Toastr { Type = "success", Title = "Success", Message = "Your account has been created. Please confirm your email address." };
 

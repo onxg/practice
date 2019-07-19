@@ -1,9 +1,10 @@
-﻿using System.Net.Mail;
+﻿using Microsoft.AspNet.Identity;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace Practice.Core.Services
 {
-    public class EmailService : IEmailService
+    public class EmailService : IIdentityMessageService
     {
         private readonly SmtpClient _smtpClient;
 
@@ -12,9 +13,10 @@ namespace Practice.Core.Services
             _smtpClient = smtpClient;
         }
 
-        public async Task SendAsync(EmailMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            var mail = new MailMessage("onex.practice2019@gmail.com", message.Destination, message.Subject, message.Body);
+            var from = _smtpClient.Credentials.GetCredential(_smtpClient.Host, _smtpClient.Port, "").UserName;
+            var mail = new MailMessage(from, message.Destination, message.Subject, message.Body);
             
             await _smtpClient.SendMailAsync(mail);
         }

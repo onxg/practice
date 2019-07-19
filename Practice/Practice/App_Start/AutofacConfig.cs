@@ -27,7 +27,11 @@ namespace Practice.App_Start
             builder.Register(c => new UserStore<ApplicationUser>(c.Resolve<Context>())).As<IUserStore<ApplicationUser, string>>();
             builder.RegisterType<EmailTokenProvider<ApplicationUser>>().As<IUserTokenProvider<ApplicationUser, string>>();
 
-            builder.Register(c => new UserManager<ApplicationUser, string>(c.Resolve<IUserStore<ApplicationUser, string>>()) { UserTokenProvider = c.Resolve<IUserTokenProvider<ApplicationUser, string>>() });
+            builder.Register(c => new UserManager<ApplicationUser, string>(c.Resolve<IUserStore<ApplicationUser, string>>())
+            {
+                UserTokenProvider = c.Resolve<IUserTokenProvider<ApplicationUser, string>>(),
+                EmailService = c.Resolve<IIdentityMessageService>()
+            });
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
             builder.RegisterType<SignInManager<ApplicationUser, string>>();
 
@@ -37,7 +41,6 @@ namespace Practice.App_Start
                 .AsImplementedInterfaces()
                 .InstancePerRequest();
 
-
             // Services
             var appSettings = WebConfigurationManager.AppSettings;
             builder.Register(c => new EmailService(new SmtpClient(appSettings["mailHost"], int.Parse(appSettings["mailPort"]))
@@ -45,7 +48,7 @@ namespace Practice.App_Start
                 EnableSsl = true,
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(appSettings["mailAccount"], appSettings["mailPassword"])
-            })).As<IEmailService>();
+            })).As<IIdentityMessageService>();
 
             // Controllers
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
