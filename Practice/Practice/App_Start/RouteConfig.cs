@@ -50,6 +50,12 @@
             );
 
             routes.MapRoute(
+                name: "ActivateAccount",
+                url: "activate-account",
+                defaults: new { controller = "Account", action = "ActivateAccount" }
+            );
+
+            routes.MapRoute(
                 name: "ForgotPassword",
                 url: "forgot-password",
                 defaults: new { controller = "Account", action = "ForgotPassword" }
