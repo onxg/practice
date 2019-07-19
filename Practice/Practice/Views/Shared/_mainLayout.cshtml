@@ -34,7 +34,24 @@
         <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
             <i class="fas fa-bars"></i>
         </button>
-
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="center" style="padding-left:15px;">
+                <div class="btn text-white">Witaj @User.Identity.Name</div>
+                <div style="margin-left:5px;" class="btn btn-danger ">
+                    <a class="text-white" href="@Url.RouteUrl("LogOff")">Log off</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="center" style="padding-left:15px;">
+                
+                <div style="margin-left:5px;" class="btn btn-success ">
+                    <a class="text-white" href="@Url.RouteUrl("Login")">Zaloguj</a>
+                </div>
+            </div>
+        }
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
             <div class="input-group">
@@ -98,65 +115,77 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-
+            @*@if (!User.Identity.IsAuthenticated)
+        {
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
                     <i class="fas fa-fw fa-sign-in-alt"></i>
                     <span>Login</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.RouteUrl("Register")">
-                    <i class="fas fa-fw fa-user-plus"></i>
-                    <span>Register</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.RouteUrl("ForgotPassword")">
-                    <i class="fas fa-fw fa-lock"></i>
-                    <span>Forgot password</span>
-                </a>
-            </li>
+        }*@
+            @if (!User.Identity.IsAuthenticated)
+            {
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.RouteUrl("Login")">
+                <i class="fas fa-fw fa-user-plus"></i>
+                <span>Login</span>
+            </a>
+        </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.RouteUrl("Logoff")">
+                        <i class="fas fa-fw fa-user-plus"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            }
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.RouteUrl("Register")">
+                        <i class="fas fa-fw fa-user-plus"></i>
+                        <span>Register</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.RouteUrl("ForgotPassword")">
+                        <i class="fas fa-fw fa-lock"></i>
+                        <span>Forgot password</span>
+                    </a>
+                </li>
+            }
             <li class="nav-item">
                 <a class="nav-link" href="@Url.RouteUrl("Charts")">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.RouteUrl("Employees")">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Employees</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.RouteUrl("Stores")">
-                    <i class="fas fa-fw fa-store"></i>
-                    <span>Stores</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.RouteUrl("Tables")">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span>
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <h6 class="dropdown-header">Login Screens:</h6>
-                    <p><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#loginModal">Login</button></p>
-                    <p><a class="btn btn-info btn-sm" href="@Url.RouteUrl("Register")" style="color:white; text-decoration:none;">Register</a></p>
-                    <p><a class="btn btn-info btn-sm" href="@Url.RouteUrl("ForgotPassword")" style="color:white; text-decoration:none;">Forgot Password</a></p>
-                    <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header">Other Pages:</h6>
-                    <p><button type="button" class="btn btn-info btn-sm"><a href="@Url.RouteUrl("NotFound")" style="color:white; text-decoration:none;">404 Page</a></button></p>
-                    <p><button type="button" class="btn btn-info btn-sm"><a href="@Url.RouteUrl("Blank")" style="color:white; text-decoration:none;">Blank Page</a></button></p>
-                </div>
-            </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.RouteUrl("Employees")">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Employees</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.RouteUrl("Stores")">
+                        <i class="fas fa-fw fa-store"></i>
+                        <span>Stores</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.RouteUrl("Tables")">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Tables</span>
+                    </a>
+                </li>
+            }
+
         </ul>
 
         <div id="content-wrapper">
@@ -198,7 +227,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.cshtml">Logout</a>
+                    <a class="btn btn-primary" href="#">Logout</a>
                 </div>
             </div>
         </div>

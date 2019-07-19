@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Practice.DAL.Identity;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,43 @@ namespace Practice.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser, string> _userManager;
+        private readonly SignInManager<ApplicationUser, string> _signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager)
+        public AccountController(UserManager<ApplicationUser, string> userManager, SignInManager<ApplicationUser, string> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public ActionResult Login() => View();
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(Core.ViewModels.Login model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.FindAsync(model.Email, model.Password);
+            if (user != null)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            }
+            else
+            {
+                ModelState.AddModelError("", "Invalid username or password.");
+            }
+            return RedirectToAction("Index","Home");
+        }
+
+        public ActionResult LogOff()
+        {
+            _signInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Home");
+        }
         public ActionResult Register() => View();
 
         [HttpPost]
