@@ -34,9 +34,24 @@
         <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
             <i class="fas fa-bars"></i>
         </button>
-        <p class="text-white ml-5">Zalogowano: @User.Identity.IsAuthenticated</p>
-
-
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="center" style="padding-left:15px;">
+                <div class="btn text-white">Witaj @User.Identity.Name</div>
+                <div style="margin-left:5px;" class="btn btn-danger ">
+                    <a class="text-white" href="@Url.RouteUrl("LogOff")">Log off</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="center" style="padding-left:15px;">
+                
+                <div style="margin-left:5px;" class="btn btn-success ">
+                    <a class="text-white" href="@Url.RouteUrl("Login")">Zaloguj</a>
+                </div>
+            </div>
+        }
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
             <div class="input-group">
@@ -100,7 +115,6 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
                     <i class="fas fa-fw fa-sign-in-alt"></i>
@@ -200,7 +214,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.cshtml">Logout</a>
+                    <a class="btn btn-primary" href="#">Logout</a>
                 </div>
             </div>
         </div>

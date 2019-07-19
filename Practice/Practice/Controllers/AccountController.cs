@@ -44,6 +44,11 @@ namespace Practice.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        public ActionResult LogOff()
+        {
+            _signInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Home");
+        }
         public ActionResult Register() => View();
 
         [HttpPost]
