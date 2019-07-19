@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
+    [Authorize]
     public class StoreController : Controller
     {
         private readonly ISalesRepository saleRepository;
