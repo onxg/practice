@@ -274,6 +274,7 @@
     <Content Include="content\toastr.scss" />
     <Content Include="content\toastr.less" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="js\store.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
