@@ -106,5 +106,24 @@
 
             return Json(new { status = "success", message = "Store has been successfully edited." });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(FormCollection formCollection)
+        {
+            string idStr = formCollection["id"];
+            if (!int.TryParse(formCollection["id"], out int id) || id == 0)
+                return Json(new { status = "error", message = "Invalid id." });
+
+            try
+            {
+                await saleRepository.DeleteStore(id);
+            }
+            catch (InvalidOperationException e)
+            {
+                return Json(new { status = "error", message = e.Message });
+            }
+
+            return Json(new { status = "success", message = "Store has been successfully deleted." });
+        }
     }
 }

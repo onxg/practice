@@ -81,5 +81,17 @@
 
             await context.SaveChangesAsync();
         }
+
+        public async Task DeleteStore(int id)
+        {
+            if (id == 0)
+                return;
+
+            var store = await context.Store.SingleAsync(x => x.BusinessEntityID == id);
+
+            context.Store.Remove(store);
+
+            await context.SaveChangesAsync();
+        }
     }
 }

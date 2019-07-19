@@ -8,5 +8,6 @@
         Task<DataTablesObject<Store>> GetAllStoresAsync(SearchFilters searchFilters);
         Task<ViewModels.Store> GetStoreById(int id);
         Task UpdateStore(ViewModels.Store store);
+        Task DeleteStore(int id);
     }
 }

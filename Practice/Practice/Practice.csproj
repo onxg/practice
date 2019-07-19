@@ -2064,6 +2064,7 @@
     <Content Include="vendor\jquery\jquery.slim.min.map" />
     <Content Include="Views\Store\Index.cshtml" />
     <Content Include="Views\Store\EditStoreModalPartial.cshtml" />
+    <Content Include="Views\Store\DeleteStoreModalPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
