@@ -100,16 +100,16 @@ $("#saveStoreButton").click(function (e) {
             type: "POST",
             url: "/Store/Edit/",
             data: {
-                id: modal.find('#Id').val(result.store.Id),
-                Name: modal.find('#Name').val(result.store.Name),
-                Address: modal.find('#Address').val(result.store.Address),
-                PostalCode: modal.find('#PostalCode').val(result.store.PostalCode),
-                City: modal.find('#City').val(result.store.City),
-                Country: modal.find('#Country').val(result.store.Country)
+                id: modal.find('#Id').val(),
+                Name: modal.find('#Name').val(),
+                Address: modal.find('#Address').val(),
+                PostalCode: modal.find('#PostalCode').val(),
+                City: modal.find('#City').val(),
+                Country: modal.find('#Country').val()
             },
             success: function (result) {
                 if (result.status == "success") {
-                    loadEmployeesTable();
+                    loadSubscriptionsTable();
                     modal.modal("hide");
                     toastr["success"](result.message, "Success");
 
