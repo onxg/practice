@@ -53,5 +53,33 @@
                 iTotalRecords = storeItems.Count
             };
         }
+        
+        public async Task<ViewModels.Store> GetStoreById(int id)
+        {
+            if (id == 0)
+                return null;
+
+            var store = await context.vStoreWithAddresses.SingleAsync(e => e.BusinessEntityID == id);
+
+            return new ViewModels.Store()
+            {
+                Id = store.BusinessEntityID,
+                Name = store.Name,
+                Address = store.AddressLine1,
+                PostalCode = store.PostalCode,
+                City = store.City,
+                Country = store.CountryRegionName
+            };
+        }
+
+        public async Task UpdateStore(ViewModels.Store store)
+        {
+            if (store == null || store.Id == 0)
+                return;
+
+            // to do
+
+            await context.SaveChangesAsync();
+        }
     }
 }

@@ -17,7 +17,15 @@
     <tbody></tbody>
 </table>
 
+@Html.Partial("EditStoreModalPartial")
+
 @section Scripts {
+
+    <script src="~/js/demo/datatables-demo.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+
     <script>
         $(document).ready(function () {
             loadSubscriptionsTable();
@@ -47,9 +55,13 @@
                     { "data": "Country" },
                     {
                         "data": "Id",
+                        "className": "text-center",
                         "render": function (data) {
-                            var link = '<a href="/Employee/Edit/' + data + '">Edit</a>';
-                            return link;
+                            var editButton = '<button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editStoreModal" data-id="' + data + '"><i class="fas fa-edit"></i></button>';
+                            //var deleteButton = '<button type="button" class="btn btn-sm btn-danger ml-1" data-toggle="modal" data-target="#deleteEmployeeModal" data-id="' + data + '"><i class="far fa-trash-alt"></i></button>';
+                            //var actionButtons = editButton + deleteButton;
+                            //return actionButtons;
+                            return editButton;
                         }
                     }
                 ],
@@ -73,5 +85,79 @@
                 }
             });
         }
+    </script>
+
+    <script>
+        $('#editStoreModal').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget);
+            let id = button.data('id');
+            let modal = $(this);
+
+            $.ajax({
+                type: "POST",
+                url: "/Store/GetStore/",
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    if (result.status == "success") {
+                        modal.find('#Id').val(result.store.Id);
+                        modal.find('#Name').val(result.store.Name);
+                        modal.find('#Address').val(result.store.Address);
+                        modal.find('#PostalCode').val(result.store.PostalCode);
+                        modal.find('#City').val(result.store.City);
+                        modal.find('#Country').val(result.store.Country);
+                    } else {
+                        toastr["error"](result.message, "Error");
+                    }
+                },
+                error: function (result) {
+                    toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $("#saveStoreButton").click(function (e) {
+            e.preventDefault();
+            let modal = $("#editStoreModal");
+
+            let validationSucceed = $("#editStoreForm").validate().form();
+
+            if (validationSucceed == true) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Store/Edit/",
+                    data: {
+                        id : modal.find('#Id').val(result.store.Id),
+                        Name : modal.find('#Name').val(result.store.Name),
+                        Address : modal.find('#Address').val(result.store.Address),
+                        PostalCode : modal.find('#PostalCode').val(result.store.PostalCode),
+                        City : modal.find('#City').val(result.store.City),
+                        Country : modal.find('#Country').val(result.store.Country)
+                    },
+                    success: function (result) {
+                        if (result.status == "success") {
+                            loadEmployeesTable();
+                            modal.modal("hide");
+                            toastr["success"](result.message, "Success");
+
+                            modal.find('#Id').val("");
+                            modal.find('#Name').val("");
+                            modal.find('#Address').val("");
+                            modal.find('#PostalCode').val("");
+                            modal.find('#City').val("");
+                            modal.find('#Country').val("");
+                        } else {
+                            toastr["error"](result.message, "Error");
+                        }
+                    },
+                    error: function (result) {
+                        toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+                    }
+                });
+            }
+        });
     </script>
 }
