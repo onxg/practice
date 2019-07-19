@@ -3,6 +3,7 @@ using Autofac.Integration.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security.DataProtection;
 using Practice.Core.Services;
 using Practice.DAL;
 using Practice.DAL.Identity;
@@ -10,6 +11,7 @@ using Practice.Repository;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -25,9 +27,13 @@ namespace Practice.App_Start
             // Context, user storage and auth services
             builder.RegisterType<Context>().InstancePerRequest();
             builder.Register(c => new UserStore<ApplicationUser>(c.Resolve<Context>())).As<IUserStore<ApplicationUser, string>>();
-            builder.RegisterType<EmailTokenProvider<ApplicationUser>>().As<IUserTokenProvider<ApplicationUser, string>>();
+            builder.Register(c => new DataProtectorTokenProvider<ApplicationUser>(new DpapiDataProtectionProvider().Create("ASP.NET Identity"))).As<IUserTokenProvider<ApplicationUser, string>>();
 
-            builder.Register(c => new UserManager<ApplicationUser, string>(c.Resolve<IUserStore<ApplicationUser, string>>()) { UserTokenProvider = c.Resolve<IUserTokenProvider<ApplicationUser, string>>() });
+            builder.Register(c => new UserManager<ApplicationUser, string>(c.Resolve<IUserStore<ApplicationUser, string>>())
+            {
+                UserTokenProvider = c.Resolve<IUserTokenProvider<ApplicationUser, string>>(),
+                EmailService = c.Resolve<IIdentityMessageService>()
+            });
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
             builder.RegisterType<SignInManager<ApplicationUser, string>>();
 
@@ -37,7 +43,6 @@ namespace Practice.App_Start
                 .AsImplementedInterfaces()
                 .InstancePerRequest();
 
-
             // Services
             var appSettings = WebConfigurationManager.AppSettings;
             builder.Register(c => new EmailService(new SmtpClient(appSettings["mailHost"], int.Parse(appSettings["mailPort"]))
@@ -45,7 +50,7 @@ namespace Practice.App_Start
                 EnableSsl = true,
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(appSettings["mailAccount"], appSettings["mailPassword"])
-            })).As<IEmailService>();
+            })).As<IIdentityMessageService>();
 
             // Controllers
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
