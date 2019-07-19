@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Practice.Core.Services;
+using Practice.Core.ViewModels;
 using Practice.DAL.Identity;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Practice.Controllers
@@ -14,11 +13,13 @@ namespace Practice.Controllers
     {
         private readonly UserManager<ApplicationUser, string> _userManager;
         private readonly SignInManager<ApplicationUser, string> _signInManager;
+        private readonly IEmailService _emailService;
 
-        public AccountController(UserManager<ApplicationUser, string> userManager, SignInManager<ApplicationUser, string> signInManager)
+        public AccountController(UserManager<ApplicationUser, string> userManager, SignInManager<ApplicationUser, string> signInManager, IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
 
         public ActionResult Login() => View();
@@ -63,12 +64,32 @@ namespace Practice.Controllers
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
             var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
-            else
+            if (!result.Succeeded)
+            {
                 AddModelErrors(result);
 
-            return View();
+                return View();
+            }
+
+            string code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            var callbackUrl = Url.RouteUrl("ActivateAccount", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
+            await _emailService.SendAsync(new EmailMessage(model.Email, "Confirm your account", "Please confirm your account by clicking here: " + callbackUrl + ""));
+
+            TempData["Toastr"] = new Toastr { Type = "success", Title = "Success", Message = "Your account has been created. Please confirm your email address." };
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<ActionResult> ActivateAccount(string userId, string code)
+        {
+            var result = await _userManager.ConfirmEmailAsync(userId, code);
+
+            if(!result.Succeeded)
+                TempData["Toastr"] = new Toastr { Type = "error", Title = "Error", Message = result.Errors.First() };
+
+            TempData["Toastr"] = new Toastr { Type = "success", Title = "Success", Message = "Your email address has been confirmed. You can log in." };
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult ForgotPassword() => View();
