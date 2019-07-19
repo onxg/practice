@@ -26,7 +26,11 @@
                 url: "login",
                 defaults: new { controller = "Account", action = "Login" }
             );
-
+            routes.MapRoute(
+                name: "LogOff",
+                url: "logoff",
+                defaults: new { controller = "Account", action = "LogOff" }
+            );
             routes.MapRoute(
                 name: "Charts",
                 url: "charts",
@@ -42,13 +46,13 @@
             routes.MapRoute(
                 name: "Register",
                 url: "register",
-                defaults: new { controller = "Side", action = "Register" }
+                defaults: new { controller = "Account", action = "Register" }
             );
 
             routes.MapRoute(
-                name: "Forgotten",
-                url: "forgotten",
-                defaults: new { controller = "Side", action = "Forgot" }
+                name: "ForgotPassword",
+                url: "forgot-password",
+                defaults: new { controller = "Account", action = "ForgotPassword" }
             );
             routes.MapRoute(
                 name: "Tables",

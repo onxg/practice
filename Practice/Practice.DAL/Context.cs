@@ -1,13 +1,12 @@
 namespace Practice.DAL
 {
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Practice.DAL.Identity;
     using System.Data.Entity;
 
-    public partial class Context : DbContext
+    public partial class Context : IdentityDbContext<ApplicationUser>
     {
-        public Context()
-            : base("name=Context")
-        {
-        }
+        public Context() : base("name=Context") { }
 
         public virtual DbSet<AWBuildVersion> AWBuildVersion { get; set; }
         public virtual DbSet<DatabaseLog> DatabaseLog { get; set; }
@@ -832,6 +831,11 @@ namespace Practice.DAL
             modelBuilder.Entity<vStoreWithDemographics>()
                 .Property(e => e.AnnualRevenue)
                 .HasPrecision(19, 4);
+
+            // Identity
+            modelBuilder.Entity<ApplicationUser>().HasKey(x => x.Id).ToTable("AspNetUsers");
+            modelBuilder.Entity<IdentityUserRole>().HasKey(x => x.RoleId).ToTable("AspNetUserRoles");
+            modelBuilder.Entity<IdentityUserLogin>().HasKey(x => x.UserId).ToTable("AspNetUserLogins");
         }
     }
 }
