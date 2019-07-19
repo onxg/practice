@@ -1758,6 +1758,7 @@
     <Content Include="Views\Side\charts.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <None Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Shared\LoginModalPartial.cshtml" />
     <Content Include="Views\Shared\_accountLayout.cshtml" />
     <None Include="Views\Side\tables.cshtml" />
     <Content Include="Web.config" />
