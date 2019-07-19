@@ -19,24 +19,27 @@
 
         public async Task<ViewModels.DataTablesObject<ViewModels.Store>> GetAllStoresAsync(ViewModels.SearchFilters searchFilters)
         {
-            var storeItems = await context.vStoreWithAddresses.Select(x => new ViewModels.Store()
-            {
-                Id = x.BusinessEntityID,
-                Address = x.AddressLine1,
-                City = x.City,
-                Country = x.CountryRegionName,
-                Name = x.Name,
-                PostalCode = x.PostalCode
-            }).ToListAsync();
+            var storeItems = await context.vStoreWithAddresses
+                .Where(e => context.Store.FirstOrDefault(y => y.BusinessEntityID == e.BusinessEntityID).IsDeleted == false)
+                .Select(x => new ViewModels.Store()
+                {
+                    Id = x.BusinessEntityID,
+                    Address = x.AddressLine1,
+                    City = x.City,
+                    Country = x.CountryRegionName,
+                    Name = x.Name,
+                    PostalCode = x.PostalCode
+                }).ToListAsync();
+
 
             if (!string.IsNullOrEmpty(searchFilters.SearchValue))
             {
                 var keyword = searchFilters.SearchValue.ToLower().Trim();
                 storeItems = storeItems
-                    .Where(s=>s.Name.ToLower().Contains(keyword)||
-                    s.Address.ToLower().Contains(keyword)||
+                    .Where(s => s.Name.ToLower().Contains(keyword) ||
+                    s.Address.ToLower().Contains(keyword) ||
                     s.PostalCode.ToLower().Contains(keyword) ||
-                    s.City.ToLower().Contains(keyword)||
+                    s.City.ToLower().Contains(keyword) ||
                     s.Country.ToLower().Contains(keyword))
                     .ToList();
             }
@@ -53,7 +56,7 @@
                 iTotalRecords = storeItems.Count
             };
         }
-        
+
         public async Task<ViewModels.Store> GetStoreById(int id)
         {
             if (id == 0)
@@ -89,7 +92,7 @@
 
             var store = await context.Store.SingleAsync(x => x.BusinessEntityID == id);
 
-            context.Store.Remove(store);
+            store.IsDeleted = true;
 
             await context.SaveChangesAsync();
         }

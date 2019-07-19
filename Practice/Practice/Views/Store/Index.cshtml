@@ -203,7 +203,7 @@
                 },
                 success: function (result) {
                     if (result.status == "success") {
-                        loadEmployeesTable();
+                        loadSubscriptionsTable();
                         modal.modal("hide");
                         toastr["success"](result.message, "Success");
                     } else {
