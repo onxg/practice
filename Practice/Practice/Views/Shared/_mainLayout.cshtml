@@ -38,7 +38,7 @@
         {
             <div class="center" style="padding-left:15px;">
                 <div class="btn text-white">Witaj @User.Identity.Name</div>
-                <div style="margin-left:5px;" class="btn btn-danger ">
+                <div style="margin-left:5px;" class="btn btn-sm btn-danger ">
                     <a class="text-white" href="@Url.RouteUrl("LogOff")">Log off</a>
                 </div>
             </div>
@@ -46,8 +46,8 @@
         else
         {
             <div class="center" style="padding-left:15px;">
-                
-                <div style="margin-left:5px;" class="btn btn-success ">
+
+                <div style="margin-left:5px;" class="btn btn-sm btn-success ">
                     <a class="text-white" href="@Url.RouteUrl("Login")">Zaloguj</a>
                 </div>
             </div>
@@ -235,6 +235,27 @@
 
     <!-- Custom scripts for all pages-->
     <script src="~/js/sb-admin.min.js"></script>
+
+    <script src="~/Scripts/toastr.min.js"></script>
+
+    @if (TempData["LoggedIn"] != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                toastr["info"]("@TempData["LoggedIn"]", "Logged In");
+            })
+
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                toastr["success"]("Successfuly logged out","Logg out");
+            })
+
+        </script>
+    }
 
     <!-- Demo scripts for this page-->
     @*

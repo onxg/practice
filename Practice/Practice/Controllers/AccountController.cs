@@ -41,12 +41,15 @@ namespace Practice.Controllers
             {
                 ModelState.AddModelError("", "Invalid username or password.");
             }
+            TempData["LoggedIn"] = "Successfully logged in.";
+
             return RedirectToAction("Index","Home");
         }
 
         public ActionResult LogOff()
         {
             _signInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            TempData["LoggedIn"] = null;
             return RedirectToAction("Index", "Home");
         }
         public ActionResult Register() => View();
