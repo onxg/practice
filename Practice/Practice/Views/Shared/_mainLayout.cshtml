@@ -222,12 +222,23 @@
     <!-- Custom scripts for all pages-->
     <script src="~/js/sb-admin.min.js"></script>
 
-    <!-- Demo scripts for this page-->
-    @*
-        <script src="~/js/demo/datatables-demo.js"></script>*@
-    @*
-        <script src="~/js/demo/chart-area-demo.js"></script>*@
+    <!-- toastr -->
+    <script src="~/Scripts/toastr.min.js"></script>
+
     @RenderSection("Scripts", required: false)
+
+    @{
+        Practice.Core.ViewModels.Toastr toastr = TempData["Toastr"] as Practice.Core.ViewModels.Toastr;
+        if (toastr != null)
+        {
+            <p>OK</p>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr["@toastr.Type"]("@toastr.Message", "@toastr.Title");
+                });
+            </script>
+        }
+    }
 </body>
 
 </html>
