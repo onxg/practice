@@ -23,6 +23,32 @@ namespace Practice.Controllers
 
         public ActionResult Login() => View();
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(Core.ViewModels.Login model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.FindAsync(model.Email, model.Password);
+            if (user != null)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            }
+            else
+            {
+                ModelState.AddModelError("", "Invalid username or password.");
+            }
+            return RedirectToAction("Index","Home");
+        }
+
+        public ActionResult LogOff()
+        {
+            _signInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Home");
+        }
         public ActionResult Register() => View();
 
         [HttpPost]

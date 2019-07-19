@@ -26,7 +26,11 @@
                 url: "login",
                 defaults: new { controller = "Account", action = "Login" }
             );
-
+            routes.MapRoute(
+                name: "LogOff",
+                url: "logoff",
+                defaults: new { controller = "Account", action = "LogOff" }
+            );
             routes.MapRoute(
                 name: "Charts",
                 url: "charts",
