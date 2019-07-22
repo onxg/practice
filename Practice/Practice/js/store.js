@@ -180,3 +180,43 @@ $("#deleteStoreButton").click(function (e) {
         }
     });
 });
+
+
+$("#createStoreButton").click(function (e) {
+    console.log("found");
+    e.preventDefault();
+    let modal = $("#createStoreModal");
+
+    let validationSucceed = $("#createStoreForm").validate().form();
+    if (validationSucceed == true) {
+        $.ajax({
+            type: "POST",
+            url: "/Store/Create/",
+            data: {
+                ShopName : modal.find("#ShopName").val(),
+                Address : modal.find("#Address").val(),
+                PostalCode : modal.find("#PostalCode").val(),
+                City : modal.find("#City").val(),
+                Country : modal.find("#Country").val(),
+            },
+            success: function (result) {
+                if (result.status == "success") {
+                    loadSubscriptionsTable();
+                    $("#createStoreModal").modal("hide");
+                    toastr["success"](result.message, "Success");
+
+                    modal.find("#ShopName").val("");
+                    modal.find("#Address").val("");
+                    modal.find("#PostalCode").val("");
+                    modal.find("#City").val("");
+                    modal.find("#Country").val("");
+                } else {
+                    toastr["error"](result.message, "Error");
+                }
+            },
+            error: function (result) {
+                toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+            }
+        });
+    }
+});

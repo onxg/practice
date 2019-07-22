@@ -2,6 +2,8 @@
 {
     using Practice.Core.Repositories;
     using Practice.DAL;
+    using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Linq.Dynamic;
@@ -113,10 +115,38 @@
 
         public async Task CreateStore(ViewModels.Store store)
         {
-            /*var shop = new Store
+            var shop = new Store
             {
+                Name = store.Name,
+                rowguid = Guid.NewGuid(),
+                ModifiedDate = DateTime.Now,
 
-            }*/
+                BusinessEntity = new BusinessEntity
+                {
+                    rowguid = Guid.NewGuid(),
+                    ModifiedDate = DateTime.Now,
+                    BusinessEntityAddress = new List<BusinessEntityAddress>
+                    {
+                        new BusinessEntityAddress
+                        {
+                            Address = new Address
+                            {
+                                AddressLine1 = store.Address,
+                                AddressLine2 = Guid.NewGuid().ToString(), // to avoid bug with 2 different employees having the same address
+                                City = store.City,
+                                PostalCode = store.PostalCode,
+                                rowguid = Guid.NewGuid(),
+                                ModifiedDate = DateTime.Now,
+                                StateProvince = await context.StateProvince.FirstOrDefaultAsync()
+                            },
+                            AddressType = await context.AddressType.FirstOrDefaultAsync(at => at.Name == "Home"),
+                            ModifiedDate = DateTime.Now,
+                            rowguid = Guid.NewGuid()
+                        }
+                    }
+
+                }
+            };
         }
     }
 }
