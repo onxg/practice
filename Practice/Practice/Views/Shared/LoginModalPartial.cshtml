@@ -1,4 +1,8 @@
-﻿<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+﻿@model Practice.Core.ViewModels.Login
+
+
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,10 +12,7 @@
                 </button>
             </div>
 
-            @model Practice.Core.ViewModels.Login
-            @{
-                Layout = "~/Views/Shared/_accountLayout.cshtml";
-            }
+
 
             <div class="card card-login mx-auto mt-5">
                 <div class="card-header">Login</div>
@@ -37,12 +38,12 @@
                             </div>
 
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                        <button type="submit"  formaction="/Account/Login" class="btn btn-primary btn-block" id="LoginButton">Login</button>
                     }
 
                     <div class="text-center">
                         <a class="d-block small mt-3" href="@Url.RouteUrl("Register")">Register an Account</a>
-                        <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+                        <a class="d-block small" href="@Url.RouteUrl("ForgotPassword")">Forgot Password?</a>
                     </div>
                 </div>
             </div>

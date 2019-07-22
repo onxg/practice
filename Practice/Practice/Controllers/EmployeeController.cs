@@ -80,7 +80,7 @@
 
             return Json(new { status = "success", message = "Employee has been successfully created." });
         }
-        [Authorize]
+        
         [HttpPost]
         public async Task<ActionResult> Edit(FormCollection formCollection)
         {
@@ -109,7 +109,7 @@
 
             return Json(new { status = "success", message = "Employee has been successfully edited." });
         }
-        [Authorize]
+        
         [HttpPost]
         public async Task<ActionResult> Delete(FormCollection formCollection)
         {

@@ -115,24 +115,16 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-            @*@if (!User.Identity.IsAuthenticated)
+            @if (!User.Identity.IsAuthenticated)
         {
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
                     <i class="fas fa-fw fa-sign-in-alt"></i>
-                    <span>Login</span>
+                    <span>Login Modal</span>
                 </a>
             </li>
-        }*@
-            @if (!User.Identity.IsAuthenticated)
-            {
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.RouteUrl("Login")">
-                <i class="fas fa-fw fa-user-plus"></i>
-                <span>Login</span>
-            </a>
-        </li>
-            }
+        }
+            
             else
             {
                 <li class="nav-item">
@@ -251,7 +243,7 @@
 
     <!-- toastr -->
     <script src="~/Scripts/toastr.min.js"></script>
-
+    @Html.Partial("LoginModalPartial")
     @RenderSection("Scripts", required: false)
 
     @{
