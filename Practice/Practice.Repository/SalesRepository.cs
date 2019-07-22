@@ -19,24 +19,27 @@
 
         public async Task<ViewModels.DataTablesObject<ViewModels.Store>> GetAllStoresAsync(ViewModels.SearchFilters searchFilters)
         {
-            var storeItems = await context.vStoreWithAddresses.Select(x => new ViewModels.Store()
-            {
-                Id = x.BusinessEntityID,
-                Address = x.AddressLine1,
-                City = x.City,
-                Country = x.CountryRegionName,
-                Name = x.Name,
-                PostalCode = x.PostalCode
-            }).ToListAsync();
+            var storeItems = await context.vStoreWithAddresses
+                .Where(e => context.Store.FirstOrDefault(y => y.BusinessEntityID == e.BusinessEntityID).IsDeleted == false)
+                .Select(x => new ViewModels.Store()
+                {
+                    Id = x.BusinessEntityID,
+                    Address = x.AddressLine1,
+                    City = x.City,
+                    Country = x.CountryRegionName,
+                    Name = x.Name,
+                    PostalCode = x.PostalCode
+                }).ToListAsync();
+
 
             if (!string.IsNullOrEmpty(searchFilters.SearchValue))
             {
                 var keyword = searchFilters.SearchValue.ToLower().Trim();
                 storeItems = storeItems
-                    .Where(s=>s.Name.ToLower().Contains(keyword)||
-                    s.Address.ToLower().Contains(keyword)||
+                    .Where(s => s.Name.ToLower().Contains(keyword) ||
+                    s.Address.ToLower().Contains(keyword) ||
                     s.PostalCode.ToLower().Contains(keyword) ||
-                    s.City.ToLower().Contains(keyword)||
+                    s.City.ToLower().Contains(keyword) ||
                     s.Country.ToLower().Contains(keyword))
                     .ToList();
             }
@@ -52,6 +55,60 @@
                 iTotalDisplayRecords = storeItems.Count,
                 iTotalRecords = storeItems.Count
             };
+        }
+
+        public async Task<ViewModels.Store> GetStoreById(int id)
+        {
+            if (id == 0)
+                return null;
+
+            var store = await context.vStoreWithAddresses.SingleAsync(e => e.BusinessEntityID == id);
+
+            return new ViewModels.Store()
+            {
+                Id = store.BusinessEntityID,
+                Name = store.Name,
+                Address = store.AddressLine1,
+                PostalCode = store.PostalCode,
+                City = store.City,
+                Country = store.CountryRegionName
+            };
+        }
+
+        public async Task UpdateStore(ViewModels.Store store)
+        {
+            if (store == null || store.Id == 0)
+                return;
+
+            var shop = await context.Store.SingleOrDefaultAsync(x => x.BusinessEntityID == store.Id);
+            if (shop == null)
+                return;
+
+            shop.Name = store.Name;
+
+            var address = shop.BusinessEntity.BusinessEntityAddress.FirstOrDefault().Address;
+
+            if (address != null)
+            {
+                address.AddressLine1 = store.Address;
+                address.City = store.City;
+                address.PostalCode = store.PostalCode;
+            }
+
+            // brakuje możliwości zmiany kraju
+            await context.SaveChangesAsync();
+        }
+
+        public async Task DeleteStore(int id)
+        {
+            if (id == 0)
+                return;
+
+            var store = await context.Store.SingleAsync(x => x.BusinessEntityID == id);
+
+            store.IsDeleted = true;
+
+            await context.SaveChangesAsync();
         }
     }
 }
