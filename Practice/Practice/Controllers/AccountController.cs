@@ -2,8 +2,10 @@
 using Microsoft.AspNet.Identity.Owin;
 using Practice.Core.ViewModels;
 using Practice.DAL.Identity;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Practice.Controllers
@@ -39,12 +41,15 @@ namespace Practice.Controllers
             {
                 ModelState.AddModelError("", "Invalid username or password.");
             }
+            TempData["LoggedIn"] = "Successfully logged in.";
+
             return RedirectToAction("Index","Home");
         }
 
         public ActionResult LogOff()
         {
             _signInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            TempData["LoggedIn"] = null;
             return RedirectToAction("Index", "Home");
         }
 
@@ -88,7 +93,61 @@ namespace Practice.Controllers
         }
 
         public ActionResult ForgotPassword() => View();
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPassword(ForgotPasssword model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+                string code = await _userManager.GeneratePasswordResetTokenAsync(user.Id);
+                //code = HttpUtility.UrlEncode(code);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 
+                await _userManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your passsword by clicking <a href=\'" + callbackUrl + "\'>here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+            }
+            return View();
+        }
+        public ActionResult ForgotPasswordConfirmation() => View();
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string code = null)
+        {
+            return code == null ? View("Error") : View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ResetPassword model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return RedirectToAction("ResetPasswordComfirmation");
+            }
+           // model.Code = HttpUtility.UrlDecode(model.Code);
+            var result = await _userManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ResetPasswordComfirmation");
+            }
+            AddModelErrors(result);
+            return View();
+        }
+        [AllowAnonymous]
+        public ActionResult ResetPasswordComfirmation()
+        {
+            return View();
+        }
         private void AddModelErrors(IdentityResult result) => result.Errors.ToList().ForEach(e => ModelState.AddModelError("", e));
     }
 }

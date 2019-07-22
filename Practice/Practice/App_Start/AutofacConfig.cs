@@ -27,7 +27,7 @@ namespace Practice.App_Start
             // Context, user storage and auth services
             builder.RegisterType<Context>().InstancePerRequest();
             builder.Register(c => new UserStore<ApplicationUser>(c.Resolve<Context>())).As<IUserStore<ApplicationUser, string>>();
-            builder.Register(c => new DataProtectorTokenProvider<ApplicationUser>(new DpapiDataProtectionProvider().Create("ASP.NET Identity"))).As<IUserTokenProvider<ApplicationUser, string>>();
+            builder.Register(c => new DataProtectorTokenProvider<ApplicationUser>(new DpapiDataProtectionProvider().Create("ASP.NET Identity"))).As<IUserTokenProvider<ApplicationUser, string>>().SingleInstance();
 
             builder.Register(c => new UserManager<ApplicationUser, string>(c.Resolve<IUserStore<ApplicationUser, string>>())
             {
