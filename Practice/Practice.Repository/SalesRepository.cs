@@ -110,5 +110,13 @@
 
             await context.SaveChangesAsync();
         }
+
+        public async Task CreateStore(ViewModels.Store store)
+        {
+            /*var shop = new Store
+            {
+
+            }*/
+        }
     }
 }
