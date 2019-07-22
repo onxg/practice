@@ -17,7 +17,7 @@ namespace Practice.Core.Services
         {
             var from = _smtpClient.Credentials.GetCredential(_smtpClient.Host, _smtpClient.Port, "").UserName;
             var mail = new MailMessage(from, message.Destination, message.Subject, message.Body);
-            
+            mail.IsBodyHtml = true;
             await _smtpClient.SendMailAsync(mail);
         }
     }

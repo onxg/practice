@@ -259,6 +259,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\Site.css" />
     <Content Include="content\toastr.css" />
     <Content Include="content\toastr.min.css" />
     <Content Include="css\sb-admin.css" />
@@ -1884,6 +1885,9 @@
     <Content Include="Views\Employee\EditModalPartial.cshtml" />
     <Content Include="Views\Employee\DeleteModalPartial.cshtml" />
     <Content Include="Views\Emails\Web.config" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordComfirmation.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Shared\_mainLayout.cshtml" />
     <Content Include="Views\Side\404.cshtml" />
@@ -1893,6 +1897,8 @@
     <None Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\LoginModalPartial.cshtml" />
     <Content Include="Views\Shared\_accountLayout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Side\tables.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -2067,6 +2073,7 @@
     <Content Include="vendor\jquery\jquery.min.map" />
     <Content Include="vendor\jquery\jquery.slim.min.map" />
     <Content Include="Views\Store\Index.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
