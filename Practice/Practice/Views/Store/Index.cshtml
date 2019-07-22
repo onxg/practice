@@ -1,21 +1,40 @@
 ﻿@{
-    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_mainLayout.cshtml";
+    ViewBag.ActivePage = "Stores";
 }
 
-<table class="table table-bordered" id="table">
-    <thead>
-        <tr>
-            <th>Nazwa sklepu</th>
-            <th>Adres</th>
-            <th>Kod pocztowy</th>
-            <th>Miasto</th>
-            <th>Kraj</th>
-            <th>Akcje</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.RouteUrl("Stores")">Stores</a>
+    </li>
+    <li class="breadcrumb-item active">List</li>
+</ol>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Stores
+    </div>
+    <div class="card-body">
+        <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#createStoreModal"><i class="fas fa-fw fa-plus"></i> Create new store</button>
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="table">
+                <thead>
+                    <tr>
+                        <th>Nazwa sklepu</th>
+                        <th>Adres</th>
+                        <th>Kod pocztowy</th>
+                        <th>Miasto</th>
+                        <th>Kraj</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script>
@@ -61,7 +80,6 @@
                     { "targets": 4 },
                     { "targets": 5, "sortable": false }
                 ],
-                "dom": 'Rlfrtip',
                 "bDestroy": true,
                 "iDisplayLength": 25,
                 "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
