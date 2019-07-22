@@ -3,6 +3,10 @@
     Layout = "~/Views/Shared/_mainLayout.cshtml";
 }
 
+<p>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createStoreModal">Create</button>
+</p>
+
 <table class="table table-bordered" id="table">
     <thead>
         <tr>
@@ -17,6 +21,7 @@
     <tbody></tbody>
 </table>
 
+@Html.Partial("CreateStoreModalPartial")
 @Html.Partial("EditStoreModalPartial")
 @Html.Partial("DeleteStoreModalPartial")
 

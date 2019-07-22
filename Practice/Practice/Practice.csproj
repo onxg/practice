@@ -2146,6 +2146,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Store\EditStoreModalPartial.cshtml" />
     <Content Include="Views\Store\DeleteStoreModalPartial.cshtml" />
+    <Content Include="Views\Store\CreateStoreModalPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
