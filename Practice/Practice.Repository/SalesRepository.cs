@@ -80,8 +80,22 @@
             if (store == null || store.Id == 0)
                 return;
 
-            // to do
+            var shop = await context.Store.SingleOrDefaultAsync(x => x.BusinessEntityID == store.Id);
+            if (shop == null)
+                return;
 
+            shop.Name = store.Name;
+
+            var address = shop.BusinessEntity.BusinessEntityAddress.FirstOrDefault().Address;
+
+            if (address != null)
+            {
+                address.AddressLine1 = store.Address;
+                address.City = store.City;
+                address.PostalCode = store.PostalCode;
+            }
+
+            // brakuje możliwości zmiany kraju
             await context.SaveChangesAsync();
         }
 
