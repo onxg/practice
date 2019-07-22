@@ -53,6 +53,7 @@
     <Compile Include="ViewModels\DataTable\SearchFilters.cs" />
     <Compile Include="ViewModels\Employee.cs" />
     <Compile Include="ViewModels\ForgotPasssword.cs" />
+    <Compile Include="ViewModels\UserPanel.cs" />
     <Compile Include="ViewModels\ResetPassword.cs" />
     <Compile Include="ViewModels\Toastr.cs" />
     <Compile Include="ViewModels\Login.cs" />
