@@ -46,7 +46,6 @@ function loadEmployeesTable() {
             { "targets": 5 },
             { "targets": 6, "sortable": false }
         ],
-        "dom": 'Rlfrtip',
         "bDestroy": true,
         "iDisplayLength": 25,
         "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],

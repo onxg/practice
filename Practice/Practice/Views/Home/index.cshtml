@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_mainLayout.cshtml";
+    ViewBag.ActivePage = "Dashboard";
 }
 
 <!-- Breadcrumbs-->
@@ -582,3 +583,7 @@
     </div>
     <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 </div>
+
+@section Scripts {
+    <script src="~/js/demo/datatables-demo.js"></script>
+}

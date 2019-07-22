@@ -2,7 +2,6 @@
     loadSubscriptionsTable();
 });
 
-
 function loadSubscriptionsTable() {
     $('#table').DataTable().destroy();
     var tab = $('#table').DataTable({
@@ -45,7 +44,6 @@ function loadSubscriptionsTable() {
             { "targets": 4 },
             { "targets": 5, "sortable": false }
         ],
-        "dom": 'Rlfrtip',
         "bDestroy": true,
         "iDisplayLength": 25,
         "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
