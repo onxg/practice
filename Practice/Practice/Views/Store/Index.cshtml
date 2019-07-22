@@ -17,61 +17,13 @@
     <tbody></tbody>
 </table>
 
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            loadSubscriptionsTable();
-        });
+@Html.Partial("EditStoreModalPartial")
+@Html.Partial("DeleteStoreModalPartial")
 
-        function loadSubscriptionsTable() {
-            $('#table').DataTable().destroy();
-            var tab = $('#table').DataTable({
-                "bServerSide": true,
-                "bProcessing": true,
-                "searching": false,
-                "ajax": {
-                    url: '/Store/GetAllStoresAsync',
-                    type: 'POST'
-                },
-                paging: true,
-                ordering: true,
-                bAutoWidth: false,
-                "searching": true,
-                "pageLength": 25,
-                "order": [[1, "asc"]],
-                "columns": [
-                    { "data": "Name" },
-                    { "data": "Address" },
-                    { "data": "PostalCode" },
-                    { "data": "City" },
-                    { "data": "Country" },
-                    {
-                        "data": "Id",
-                        "render": function (data) {
-                            var link = '<a href="/Employee/Edit/' + data + '">Edit</a>';
-                            return link;
-                        }
-                    }
-                ],
-                "columnDefs": [
-                    { "targets": 0 },
-                    { "targets": 1 },
-                    { "targets": 2 },
-                    { "targets": 3 },
-                    { "targets": 4 },
-                    { "targets": 5, "sortable": false }
-                ],
-                "dom": 'Rlfrtip',
-                "bDestroy": true,
-                "iDisplayLength": 25,
-                "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
-            });
-            $('#table_filter input').unbind();
-            $('#table_filter input').bind('keyup', function (e) {
-                if (e.keyCode == 13) {
-                    tab.search(this.value).draw();
-                }
-            });
-        }
-    </script>
+@section Scripts {
+    <script src="~/js/demo/datatables-demo.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/js/store.js"></script>
 }

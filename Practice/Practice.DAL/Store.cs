@@ -2,6 +2,7 @@ namespace Practice.DAL
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
@@ -27,6 +28,9 @@ namespace Practice.DAL
 
         [Column(TypeName = "xml")]
         public string Demographics { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; }
 
         public Guid rowguid { get; set; }
 

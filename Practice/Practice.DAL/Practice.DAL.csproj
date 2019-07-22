@@ -120,6 +120,10 @@
     <Compile Include="Migrations\201907220621438_RemoveResetPasswordToken.Designer.cs">
       <DependentUpon>201907220621438_RemoveResetPasswordToken.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907191152476_AddIsDeletedToStoreEntity.cs" />
+    <Compile Include="Migrations\201907191152476_AddIsDeletedToStoreEntity.Designer.cs">
+      <DependentUpon>201907191152476_AddIsDeletedToStoreEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Password.cs" />
     <Compile Include="Person.cs" />
@@ -204,6 +208,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907220621438_RemoveResetPasswordToken.resx">
       <DependentUpon>201907220621438_RemoveResetPasswordToken.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907191152476_AddIsDeletedToStoreEntity.resx">
+      <DependentUpon>201907191152476_AddIsDeletedToStoreEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

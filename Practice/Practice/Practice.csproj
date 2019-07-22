@@ -343,6 +343,7 @@
     <Content Include="content\toastr.scss" />
     <Content Include="content\toastr.less" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="js\store.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -2143,6 +2144,8 @@
     <Content Include="vendor\jquery\jquery.slim.min.map" />
     <Content Include="Views\Store\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Store\EditStoreModalPartial.cshtml" />
+    <Content Include="Views\Store\DeleteStoreModalPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
