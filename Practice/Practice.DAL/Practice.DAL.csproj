@@ -124,6 +124,10 @@
     <Compile Include="Migrations\201907191152476_AddIsDeletedToStoreEntity.Designer.cs">
       <DependentUpon>201907191152476_AddIsDeletedToStoreEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907220936471_AddIsDeletedToStoreEntity2.cs" />
+    <Compile Include="Migrations\201907220936471_AddIsDeletedToStoreEntity2.Designer.cs">
+      <DependentUpon>201907220936471_AddIsDeletedToStoreEntity2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Password.cs" />
     <Compile Include="Person.cs" />
@@ -211,6 +215,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907191152476_AddIsDeletedToStoreEntity.resx">
       <DependentUpon>201907191152476_AddIsDeletedToStoreEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907220936471_AddIsDeletedToStoreEntity2.resx">
+      <DependentUpon>201907220936471_AddIsDeletedToStoreEntity2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
