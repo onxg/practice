@@ -23,7 +23,11 @@ namespace Practice.Repository
 
         public async Task<DataTablesObject<History>> GetAllHistoriesAsync(SearchFilters searchFilters)
         {
-            var history = await context.vEmployeeDepartmentHistory.Select(x => new ViewModels.History()
+            var history = await context.vEmployeeDepartmentHistory
+                .Where(e => context.EmployeeDepartmentHistory
+                .FirstOrDefault(y=>y.BusinessEntityID == e.BusinessEntityID && y.StartDate == e.StartDate && y.Department.Name == e.Department)
+                .isDeleted == false)
+                .Select(x => new ViewModels.History()
             {
                 Id = x.BusinessEntityID,
                 FirstName = x.FirstName,
@@ -83,8 +87,9 @@ namespace Practice.Repository
 
             var history = await context.EmployeeDepartmentHistory.SingleAsync(x => x.BusinessEntityID == id && x.StartDate == date && x.Department.Name == department);
 
+            history.isDeleted = true;
 
-
+            await context.SaveChangesAsync();
         }
     }
 }

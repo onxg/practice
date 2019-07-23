@@ -126,11 +126,13 @@ $("#deleteHistoryButton").click(function (e) {
         type: "POST",
         url: "/History/Delete/",
         data: {
-            id: modal.find("#hiddenId").val()
+            id: modal.find("#hiddenId").val(),
+            department: modal.find("#hiddenDepartment").val(),
+            startDate: modal.find("#hiddenDate").val()
         },
         success: function (result) {
             if (result.status == "success") {
-                loadEmployeesTable();
+                loadHistoryTable();
                 modal.modal("hide");
                 toastr["success"](result.message, "Success");
             } else {
