@@ -22,6 +22,12 @@
             );
 
             routes.MapRoute(
+                name: "History",
+                url: "history",
+                defaults: new { controller = "History", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "Login",
                 url: "login",
                 defaults: new { controller = "Account", action = "Login" }
