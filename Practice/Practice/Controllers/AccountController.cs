@@ -41,7 +41,7 @@ namespace Practice.Controllers
                 return View(model);
             }
 
-            await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            await _signInManager.SignInAsync(user, isPersistent: true, rememberBrowser: false);
             TempData["Toastr"] = new Toastr { Type = "success", Title = "Success", Message = "Successfully logged in." };
 
             return RedirectToAction("Index", "Home");

@@ -72,5 +72,40 @@ namespace Practice.Controllers
 
             return orderBy;
         }
+
+
+        public async Task<ActionResult> GetHistory(FormCollection form)
+        {
+            if (!int.TryParse(form["id"], out int id) || id == 0)
+                return Json(new { status = "error", message = "Invalid id." });
+
+            DateTime date = Convert.ToDateTime(form["startDate"]);
+
+            var history = await historyRepository.GetHistory(id, date, form["department"]);
+
+            return Json(new { status = "success", history });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult> Delete(FormCollection form)
+        {
+            string idStr = form["id"];
+            if (!int.TryParse(form["id"], out int id) || id == 0)
+                return Json(new { status = "error", message = "Invalid id." });
+
+            DateTime date = Convert.ToDateTime(form["startDate"]);
+
+            try
+            {
+                await historyRepository.Delete(id, date, form["department"]);
+            }
+            catch (InvalidOperationException e)
+            {
+                return Json(new { status = "error", message = e.Message });
+            }
+
+            return Json(new { status = "success", message = "History has been successfully deleted." });
+        }
     }
 }

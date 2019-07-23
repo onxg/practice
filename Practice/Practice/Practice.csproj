@@ -1959,6 +1959,7 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordComfirmation.cshtml" />
     <Content Include="Views\History\Index.cshtml" />
+    <Content Include="Views\History\DeleteHistoryPartial.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Shared\_mainLayout.cshtml" />
     <Content Include="Views\Side\404.cshtml" />

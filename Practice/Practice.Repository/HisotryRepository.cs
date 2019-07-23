@@ -57,5 +57,34 @@ namespace Practice.Repository
                 iTotalRecords = history.Count
             };
         }
+
+        public async Task<History> GetHistory(int id, DateTime date, string department)
+        {
+            if (id == 0)
+                return null;
+            
+            var history = await context.vEmployeeDepartmentHistory.SingleAsync(e => e.BusinessEntityID == id && e.StartDate == date && e.Department == department);
+
+            return new ViewModels.History()
+            {
+                Id = history.BusinessEntityID,
+                FirstName = history.FirstName,
+                LastName = history.LastName,
+                Department = history.Department,
+                StartDate = history.StartDate,
+                EndDate = history.EndDate
+            };
+        }
+
+        public async Task Delete(int id, DateTime date, string department)
+        {
+            if (id == 0)
+                return;
+
+            var history = await context.EmployeeDepartmentHistory.SingleAsync(x => x.BusinessEntityID == id && x.StartDate == date && x.Department.Name == department);
+
+
+
+        }
     }
 }

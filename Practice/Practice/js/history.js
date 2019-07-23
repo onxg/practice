@@ -2,7 +2,7 @@
     loadHistoryTable();
 });
 
-function convertDate(x) {
+function convertDate(x,display) {
     var value = new Date(parseInt(x.substr(6)));
     var year = value.getFullYear();
     var month = value.getMonth() + 1;
@@ -14,7 +14,11 @@ function convertDate(x) {
     if (day.toString().length == 1)
         day = "0".concat(day);
 
-    var date = year + "/" + month + "/" + day;
+    if (display == true)
+        var date = year + "/" + month + "/" + day;
+    else
+        // other date format to convert to DateTime in HistoryController
+        var date = day + "/" + month + "/" + year;
 
     return date;
 }
@@ -43,7 +47,7 @@ function loadHistoryTable() {
             {
                 "data": "StartDate",
                 "render": function (data) {
-                    return convertDate(data);
+                    return convertDate(data,true);
                 }
             },
             {
@@ -52,18 +56,13 @@ function loadHistoryTable() {
                     if (data == null)
                         return "Still working";
 
-                    return convertDate(data);
+                    return convertDate(data,true);
                 }
             },
             {
-                "data": "Actions",
-                "className": "text-center",
-                "render": function (data) {
-                    var editButton = '<button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#" data-id="' + data + '"><i class="fas fa-edit"></i></button>';
-                    var deleteButton = '<button type="button" class="btn btn-sm btn-danger ml-1" data-toggle="modal" data-target="#" data-id="' + data + '"><i class="far fa-trash-alt"></i></button>';
-                    var actionButtons = editButton + deleteButton;
-                    return actionButtons;
-
+                "data": function (data, type, dataToSet) {
+                    var deleteButton = '<button type="button" class="btn btn-sm btn-danger ml-1" data-toggle="modal" data-target="#deleteHistoryModal" data-id="' + data.Id + '" data-StartDate="' + convertDate(data.StartDate,false) + '" data-Department="' + data.Department + '"><i class="far fa-trash-alt"></i></button>';
+                    return deleteButton;
                 }
             }
         ],
@@ -73,8 +72,8 @@ function loadHistoryTable() {
             { "targets": 2 },
             { "targets": 3 },
             { "targets": 4 },
-            { "targets": 5, "sortable": false},
-            { "targets": 6, "sortable": false}
+            { "targets": 5, "sortable": false },
+            { "targets": 6, "sortable": false }
         ],
         "bDestroy": true,
         "iDisplayLength": 25,
@@ -87,3 +86,59 @@ function loadHistoryTable() {
         }
     });
 }
+
+$('#deleteHistoryModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var id = button.data('id');
+    var department = button.data('department');
+    var startDate = button.data('startdate');
+    let modal = $(this);
+
+    $.ajax({
+        type: "POST",
+        url: "/History/GetHistory/",
+        data: {
+            id: id,
+            department: department,
+            startDate: startDate
+        },
+        success: function (result) {
+            if (result.status == "success") {
+                modal.find('#hiddenId').val(id);
+                modal.find('#hiddenDate').val(startDate);
+                modal.find('#hiddenDepartment').val(department);
+                modal.find('.modal-body').text('Do you want to delete selected row?');
+            } else {
+                toastr["error"](result.message, "Error");
+            }
+        },
+        error: function (result) {
+            toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+        }
+    });
+
+});
+
+$("#deleteHistoryButton").click(function (e) {
+    e.preventDefault();
+    let modal = $("#deleteHistoryModal");
+    $.ajax({
+        type: "POST",
+        url: "/History/Delete/",
+        data: {
+            id: modal.find("#hiddenId").val()
+        },
+        success: function (result) {
+            if (result.status == "success") {
+                loadEmployeesTable();
+                modal.modal("hide");
+                toastr["success"](result.message, "Success");
+            } else {
+                toastr["error"](result.message, "Error");
+            }
+        },
+        error: function (result) {
+            toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+        }
+    });
+});
