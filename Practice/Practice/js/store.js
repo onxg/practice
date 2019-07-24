@@ -183,7 +183,6 @@ $("#deleteStoreButton").click(function (e) {
 
 
 $("#createStoreButton").click(function (e) {
-    console.log("found");
     e.preventDefault();
     let modal = $("#createStoreModal");
 

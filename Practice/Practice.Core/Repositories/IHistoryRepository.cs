@@ -9,5 +9,6 @@
         Task<DataTablesObject<History>> GetAllHistoriesAsync(SearchFilters searchFilters);
         Task<ViewModels.History> GetHistory(int id, DateTime date, string department);
         Task Delete(int id, DateTime date, string department);
+        Task Update(History history, History oldHistory);
     }
 }

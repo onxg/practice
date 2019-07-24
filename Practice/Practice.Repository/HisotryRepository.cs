@@ -91,5 +91,40 @@ namespace Practice.Repository
 
             await context.SaveChangesAsync();
         }
+
+        public async Task Update(History history, History oldHistory)
+        {
+            var record = await context.EmployeeDepartmentHistory
+                .SingleAsync(x => x.BusinessEntityID == history.Id && x.StartDate == oldHistory.StartDate && x.Department.Name == oldHistory.Department);
+
+            if (record == null)
+                return;
+
+            //can't modify StartDate - primary key so I make copy of record, remove original record and add new one updated
+            var removedRecord = record;
+            context.EmployeeDepartmentHistory.Remove(record);
+
+            var newRecord = new EmployeeDepartmentHistory
+            {
+                BusinessEntityID = removedRecord.BusinessEntityID,
+                DepartmentID = removedRecord.DepartmentID,
+                ShiftID = removedRecord.ShiftID,
+                StartDate = history.StartDate,
+                EndDate = history.EndDate,
+                ModifiedDate = DateTime.Now,
+                Employee = context.Employee.Single(e => e.BusinessEntityID == removedRecord.BusinessEntityID),
+                Department = context.Department.Single(e => e.DepartmentID == removedRecord.DepartmentID),
+                Shift = removedRecord.Shift
+            };
+
+            newRecord.Employee.Person.FirstName = history.FirstName;
+            newRecord.Employee.Person.LastName = history.LastName;
+            //newRecord.Department.Name = history.Department;
+
+            context.EmployeeDepartmentHistory.Add(newRecord);
+
+
+            await context.SaveChangesAsync();
+        }
     }
 }

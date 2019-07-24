@@ -15,9 +15,10 @@ function convertDate(x,display) {
         day = "0".concat(day);
 
     if (display == true)
-        var date = year + "/" + month + "/" + day;
+        // date format for html
+        var date = year + "-" + month + "-" + day;
     else
-        // other date format to convert to DateTime in HistoryController
+        // date format to convert to DateTime in HistoryController
         var date = day + "/" + month + "/" + year;
 
     return date;
@@ -61,8 +62,9 @@ function loadHistoryTable() {
             },
             {
                 "data": function (data, type, dataToSet) {
-                    var deleteButton = '<button type="button" class="btn btn-sm btn-danger ml-1" data-toggle="modal" data-target="#deleteHistoryModal" data-id="' + data.Id + '" data-StartDate="' + convertDate(data.StartDate,false) + '" data-Department="' + data.Department + '"><i class="far fa-trash-alt"></i></button>';
-                    return deleteButton;
+                    var editButton = '<button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editHistoryModal" data-id="' + data.Id + '" data-StartDate="' + convertDate(data.StartDate, true) + '" data-Department="' + data.Department + '"><i class="fas fa-edit"></i></button>';
+                    var deleteButton = '<button type="button" class="btn btn-sm btn-danger ml-1" data-toggle="modal" data-target="#deleteHistoryModal" data-id="' + data.Id + '" data-StartDate="' + convertDate(data.StartDate, false) + '" data-Department="' + data.Department + '"><i class="far fa-trash-alt"></i></button>';
+                    return editButton + deleteButton;
                 }
             }
         ],
@@ -143,4 +145,93 @@ $("#deleteHistoryButton").click(function (e) {
             toastr["error"]("Oops. Something went wrong. Try again.", "Error");
         }
     });
+});
+
+$('#editHistoryModal').on('show.bs.modal', function (event) {
+    let button = $(event.relatedTarget);
+    let id = button.data('id');
+    let department = button.data('department');
+    let startDate = button.data('startdate');
+    let modal = $(this);
+
+    $.ajax({
+        type: "POST",
+        url: "/History/GetHistory/",
+        data: {
+            id: id,
+            department: department,
+            startDate: startDate
+        },
+        success: function (result) {
+            if (result.status == "success") {
+                modal.find('#FirstName').val(result.history.FirstName);
+                modal.find('#LastName').val(result.history.LastName);
+                modal.find('#Department').val(department);
+                modal.find('#StartDate').val(startDate);
+
+                modal.find('#hiddenId').val(id);
+                modal.find('#hiddenDepartment').val(department);
+                modal.find('#hiddenStartDate').val(startDate);
+
+                if (result.history.EndDate) {
+                    endDate = convertDate(result.history.EndDate,true);
+                    modal.find('#EndDate').val(endDate);
+                }
+                else
+                    modal.find('#EndDate').val("Still working");
+                
+            } else {
+                toastr["error"](result.message, "Error");
+            }
+        },
+        error: function (result) {
+            toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+        }
+    });
+});
+
+$('#saveHistoryButton').click(function (e) {
+    e.preventDefault();
+    let modal = $('#editHistoryModal');
+    let validationSucceed = $("#editHistoryForm").validate().form();
+    let x = modal.find('#EndDate').val();
+
+    console.log(x);
+    
+    if (validationSucceed == true) {
+        $.ajax({
+            type: "POST",
+            url: "/History/Edit/",
+            data: {
+                id: modal.find('#hiddenId').val(),
+                firstName: modal.find('#FirstName').val(),
+                lastName: modal.find('#LastName').val(),
+                department: modal.find('#Department').val(),
+                startDate: modal.find('#StartDate').val(),
+                endDate: modal.find('#EndDate').val(),
+
+                oldStartDate: modal.find('#hiddenStartDate').val(),
+                oldDepartment: modal.find('#hiddenDepartment').val()
+            },
+            success: function (result) {
+                if (result.status == "success") {
+                    loadHistoryTable();
+                    modal.modal("hide");
+                    toastr["success"](result.message, "Success");
+
+                    modal.find('#Id').val("");
+                    modal.find('#Name').val("");
+                    modal.find('#Address').val("");
+                    modal.find('#PostalCode').val("");
+                    modal.find('#City').val("");
+                    modal.find('#Country').val("");
+                } else {
+                    toastr["error"](result.message, "Error");
+                }
+            },
+            error: function (result) {
+                toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+            }
+        })
+    }
 });

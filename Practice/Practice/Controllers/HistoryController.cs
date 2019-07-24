@@ -107,5 +107,44 @@ namespace Practice.Controllers
 
             return Json(new { status = "success", message = "History has been successfully deleted." });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(FormCollection form)
+        {
+            string idStr = form["id"];
+            if (!int.TryParse(form["id"], out int id) || id == 0)
+                return Json(new { status = "error", message = "Invalid id." });
+
+            DateTime oldStartDate = Convert.ToDateTime(form["oldStartDate"]);
+            DateTime startDate = Convert.ToDateTime(form["startDate"]);
+
+            History oldHistory = new History
+            {
+                Department = form["oldDepartment"],
+                StartDate = oldStartDate
+            };
+
+            History history = new History
+            {
+                Id = id,
+                FirstName = form["firstName"],
+                LastName = form["lastName"],
+                Department = form["department"],
+                StartDate = startDate
+            };
+            if (!string.IsNullOrEmpty(form["endDate"]))
+                history.EndDate = Convert.ToDateTime(form["endDate"]);
+
+            try
+            {
+                await historyRepository.Update(history,oldHistory);
+            }
+            catch(InvalidOperationException e)
+            {
+                return Json(new { status = "error", message = e.Message });
+            }
+
+            return Json( new { status = "success", message = "History has been succesfully updated." });
+        }
     }
 }
