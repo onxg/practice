@@ -2,7 +2,7 @@
     loadHistoryTable();
 });
 
-function convertDate(x,display) {
+function convertDate(x, display) {
     var value = new Date(parseInt(x.substr(6)));
     var year = value.getFullYear();
     var month = value.getMonth() + 1;
@@ -26,8 +26,8 @@ function convertDate(x,display) {
 
 function loadHistoryTable() {
     $('#table').DataTable().destroy();
-    var dateFrom = $('#DateFrom').val();
-    var dateTo = $('#DateTo').val();
+    var dateFrom = $('input[name="DateFrom"]').val();
+    var dateTo = $('input[name="DateTo"]').val();
     var tab = $('#table').DataTable({
         "bServerSide": true,
         "bProcessing": true,
@@ -54,7 +54,7 @@ function loadHistoryTable() {
             {
                 "data": "StartDate",
                 "render": function (data) {
-                    return convertDate(data,true);
+                    return convertDate(data, true);
                 }
             },
             {
@@ -63,7 +63,7 @@ function loadHistoryTable() {
                     if (data == null)
                         return "Still working";
 
-                    return convertDate(data,true);
+                    return convertDate(data, true);
                 }
             },
             {
@@ -193,12 +193,12 @@ $('#editHistoryModal').on('show.bs.modal', function (event) {
                 modal.find('#hiddenStartDate').val(startDate);
 
                 if (result.history.EndDate) {
-                    endDate = convertDate(result.history.EndDate,true);
+                    endDate = convertDate(result.history.EndDate, true);
                     modal.find('#EndDate').val(endDate);
                 }
                 else
                     modal.find('#EndDate').val("Still working");
-                
+
             } else {
                 toastr["error"](result.message, "Error");
             }
@@ -213,7 +213,7 @@ $('#saveHistoryButton').click(function (e) {
     e.preventDefault();
     let modal = $('#editHistoryModal');
     let validationSucceed = $("#editHistoryForm").validate().form();
-    
+
     if (validationSucceed == true) {
         $.ajax({
             type: "POST",
@@ -254,27 +254,21 @@ $('#saveHistoryButton').click(function (e) {
 
 $("#FilterButton").click(function (e) {
     loadHistoryTable();
-    /*e.preventDefault();
-    let modal = $("#deleteHistoryModal");
-    $.ajax({
-        type: "POST",
-        url: "/History/Delete/",
-        data: {
-            id: modal.find("#hiddenId").val(),
-            department: modal.find("#hiddenDepartment").val(),
-            startDate: modal.find("#hiddenDate").val()
-        },
-        success: function (result) {
-            if (result.status == "success") {
-                loadHistoryTable();
-                modal.modal("hide");
-                toastr["success"](result.message, "Success");
-            } else {
-                toastr["error"](result.message, "Error");
-            }
-        },
-        error: function (result) {
-            toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+});
+
+let DatePicker = function (elementName) {
+    $('input[name="' + elementName + '"]').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 2006,
+        maxYear: parseInt(moment().format('YYYY'), 10),
+        locale: {
+            "format": "YYYY-MM-DD"
         }
-    });*/
+    });
+};
+
+$(function () {
+    DatePicker('DateFrom');
+    DatePicker('DateTo');
 });
