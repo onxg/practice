@@ -1,0 +1,68 @@
+﻿<div class="modal fade" id="editHistoryModal" tabindex="-1" role="dialog" aria-labelledby="editHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editHistoryModalLabel">Edit History</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editHistoryForm">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div><input type="hidden" id="hiddenId" value="" /></div>
+                        <div><input type="hidden" id="hiddenStartDate" value="" /></div>
+                        <div><input type="hidden" id="hiddenDepartment" value="" /></div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="FirstName">First Name</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="First Name is required." id="FirstName" name="FirstName" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="LastName">Last Name</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Last Name is required." id="LastName" name="LastName" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="Department">Department</label>
+                                <div>
+                                    <select class="form-control" id="Department" name="Department"></select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="StartDate">Start Date</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Start Date is required." id="StartDate" name="StartDate" type="date" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="StartDate" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="EndDate">End Date</label>
+                                <div>
+                                    <input class="form-control text-box single-line" id="EndDate" name="EndDate" type="date" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="saveHistoryButton">Save changes</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

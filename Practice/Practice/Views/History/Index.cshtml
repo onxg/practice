@@ -1,12 +1,14 @@
-﻿@{
+﻿@model IEnumerable<Practice.Core.ViewModels.History>
+
+@{
     Layout = "~/Views/Shared/_mainLayout.cshtml";
-    ViewBag.ActivePage = "Stores";
+    ViewBag.ActivePage = "History";
 }
 
 <!-- Breadcrumbs-->
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
-        <a href="@Url.RouteUrl("Stores")">Stores</a>
+        <a href="@Url.RouteUrl("History")">History</a>
     </li>
     <li class="breadcrumb-item active">List</li>
 </ol>
@@ -14,21 +16,21 @@
 <div class="card mb-3">
     <div class="card-header">
         <i class="fas fa-table"></i>
-        Stores
+        History
     </div>
     <div class="card-body">
-        <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#createStoreModal"><i class="fas fa-fw fa-plus"></i> Create new store</button>
 
         <div class="table-responsive">
             <table class="table table-bordered" id="table">
                 <thead>
                     <tr>
-                        <th>Nazwa sklepu</th>
-                        <th>Adres</th>
-                        <th>Kod pocztowy</th>
-                        <th>Miasto</th>
-                        <th>Kraj</th>
-                        <th>Akcje</th>
+                        <th>Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Department</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
             </table>
@@ -36,14 +38,13 @@
     </div>
 </div>
 
-@Html.Partial("CreateStoreModalPartial")
-@Html.Partial("EditStoreModalPartial")
-@Html.Partial("DeleteStoreModalPartial")
+@Html.Partial("EditHistoryPartial")
+@Html.Partial("DeleteHistoryPartial")
 
 @section Scripts {
     <script src="~/js/demo/datatables-demo.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/toastr.min.js"></script>
-    <script src="~/js/store.js"></script>
+    <script src="~/js/history.js"></script>
 }

@@ -126,5 +126,29 @@
 
             return Json(new { status = "success", message = "Store has been successfully deleted." });
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(FormCollection formCollection)
+        {
+            Core.ViewModels.Store newStore = new Core.ViewModels.Store
+            {
+                Name = formCollection["ShopName"],
+                Address = formCollection["Address"],
+                PostalCode = formCollection["PostalCode"],
+                City = formCollection["City"],
+                Country = formCollection["Country"]
+            };
+
+            try
+            {
+                await saleRepository.CreateStore(newStore);
+            }
+            catch (InvalidOperationException e)
+            {
+                return Json(new { status = "error", message = e.Message });
+            }
+        
+            return Json(new { status = "success", message = "Store has been successfully created." });
+        }
     }
 }

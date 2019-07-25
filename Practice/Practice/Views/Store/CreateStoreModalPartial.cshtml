@@ -1,0 +1,68 @@
+﻿<div class="modal fade" id="createStoreModal" tabindex="-1" role="dialog" aria-labelledby="createStoreModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createStoreModalLabel">Create new store</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="createStoreForm">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="FirstName">Shop name</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Shop name is required." id="ShopName" name="ShopName" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="ShopName" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="Address">Address</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Address is required." id="Address" name="Address" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="Address" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="PostalCode">Postal Code</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Postal Code is required." id="PostalCode" name="PostalCode" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="PostalCode" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="City">City</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="City is required." id="City" name="City" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="City" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="Country">Country</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Country is required." id="Country" name="Country" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="Country" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="createStoreButton">Create</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

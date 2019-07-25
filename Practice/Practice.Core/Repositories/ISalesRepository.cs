@@ -9,5 +9,6 @@
         Task<ViewModels.Store> GetStoreById(int id);
         Task UpdateStore(ViewModels.Store store);
         Task DeleteStore(int id);
+        Task CreateStore(ViewModels.Store store);
     }
 }
