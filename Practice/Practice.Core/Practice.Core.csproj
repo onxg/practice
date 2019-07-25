@@ -47,12 +47,14 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IHumanResourcesRepository.cs" />
+    <Compile Include="Repositories\IHistoryRepository.cs" />
     <Compile Include="Repositories\ISalesRepository.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="ViewModels\DataTable\DataTablesObject.cs" />
     <Compile Include="ViewModels\DataTable\SearchFilters.cs" />
     <Compile Include="ViewModels\Employee.cs" />
     <Compile Include="ViewModels\ForgotPasssword.cs" />
+    <Compile Include="ViewModels\History.cs" />
     <Compile Include="ViewModels\UserPanel.cs" />
     <Compile Include="ViewModels\ResetPassword.cs" />
     <Compile Include="ViewModels\Toastr.cs" />

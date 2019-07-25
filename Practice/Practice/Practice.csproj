@@ -338,6 +338,7 @@
     <Content Include="js\demo\chart-pie-demo.js" />
     <Content Include="js\demo\datatables-demo.js" />
     <Content Include="js\employees.js" />
+    <Content Include="js\history.js" />
     <Content Include="js\sb-admin.js" />
     <Content Include="js\sb-admin.min.js" />
     <Content Include="content\toastr.scss" />
@@ -1957,6 +1958,9 @@
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordComfirmation.cshtml" />
+    <Content Include="Views\History\Index.cshtml" />
+    <Content Include="Views\History\DeleteHistoryPartial.cshtml" />
+    <Content Include="Views\History\EditHistoryPartial.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Shared\_mainLayout.cshtml" />
     <Content Include="Views\Side\404.cshtml" />
@@ -1977,6 +1981,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SideController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
@@ -2146,6 +2151,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Store\EditStoreModalPartial.cshtml" />
     <Content Include="Views\Store\DeleteStoreModalPartial.cshtml" />
+    <Content Include="Views\Store\CreateStoreModalPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
