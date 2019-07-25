@@ -27,5 +27,7 @@ namespace Practice.Core.ViewModels
         public DateTime StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public IEnumerable<string> AllDepartments { get; set; }
     }
 }

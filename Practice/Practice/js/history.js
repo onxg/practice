@@ -166,8 +166,21 @@ $('#editHistoryModal').on('show.bs.modal', function (event) {
             if (result.status == "success") {
                 modal.find('#FirstName').val(result.history.FirstName);
                 modal.find('#LastName').val(result.history.LastName);
-                modal.find('#Department').val(department);
                 modal.find('#StartDate').val(startDate);
+
+                // for showing Departments list in  editing modal
+                let departments = result.history.AllDepartments;
+                let htmlDepartments = "";
+                let textToPrint = "";
+                for (i = 0; i < departments.length; i++) {
+                    if (departments[i] == department)
+                        textToPrint = "<option selected>" + departments[i] + "</option>"
+                    else
+                        textToPrint = "<option>" + departments[i] + "</option>";
+
+                    htmlDepartments += textToPrint;
+                }
+                document.getElementById('Department').innerHTML = htmlDepartments;
 
                 modal.find('#hiddenId').val(id);
                 modal.find('#hiddenDepartment').val(department);
@@ -194,9 +207,6 @@ $('#saveHistoryButton').click(function (e) {
     e.preventDefault();
     let modal = $('#editHistoryModal');
     let validationSucceed = $("#editHistoryForm").validate().form();
-    let x = modal.find('#EndDate').val();
-
-    console.log(x);
     
     if (validationSucceed == true) {
         $.ajax({

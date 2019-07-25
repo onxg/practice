@@ -25,17 +25,17 @@ namespace Practice.Repository
         {
             var history = await context.vEmployeeDepartmentHistory
                 .Where(e => context.EmployeeDepartmentHistory
-                .FirstOrDefault(y=>y.BusinessEntityID == e.BusinessEntityID && y.StartDate == e.StartDate && y.Department.Name == e.Department)
+                .FirstOrDefault(y => y.BusinessEntityID == e.BusinessEntityID && y.StartDate == e.StartDate && y.Department.Name == e.Department)
                 .isDeleted == false)
                 .Select(x => new ViewModels.History()
-            {
-                Id = x.BusinessEntityID,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Department = x.Department,
-                StartDate = x.StartDate,
-                EndDate = x.EndDate
-            }).ToListAsync();
+                {
+                    Id = x.BusinessEntityID,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Department = x.Department,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate
+                }).ToListAsync();
 
             if (!string.IsNullOrEmpty(searchFilters.SearchValue))
             {
@@ -66,8 +66,9 @@ namespace Practice.Repository
         {
             if (id == 0)
                 return null;
-            
+
             var history = await context.vEmployeeDepartmentHistory.SingleAsync(e => e.BusinessEntityID == id && e.StartDate == date && e.Department == department);
+            var departments = await context.Department.Select(d => d.Name).ToListAsync();
 
             return new ViewModels.History()
             {
@@ -76,7 +77,8 @@ namespace Practice.Repository
                 LastName = history.LastName,
                 Department = history.Department,
                 StartDate = history.StartDate,
-                EndDate = history.EndDate
+                EndDate = history.EndDate,
+                AllDepartments = departments
             };
         }
 
@@ -100,29 +102,25 @@ namespace Practice.Repository
             if (record == null)
                 return;
 
-            //can't modify StartDate - primary key so I make copy of record, remove original record and add new one updated
-            var removedRecord = record;
+            //can't modify StartDate - primary key so I remove original record and add new one updated
             context.EmployeeDepartmentHistory.Remove(record);
 
             var newRecord = new EmployeeDepartmentHistory
             {
-                BusinessEntityID = removedRecord.BusinessEntityID,
-                DepartmentID = removedRecord.DepartmentID,
-                ShiftID = removedRecord.ShiftID,
+                BusinessEntityID = record.BusinessEntityID,
+                ShiftID = record.ShiftID,
                 StartDate = history.StartDate,
                 EndDate = history.EndDate,
                 ModifiedDate = DateTime.Now,
-                Employee = context.Employee.Single(e => e.BusinessEntityID == removedRecord.BusinessEntityID),
-                Department = context.Department.Single(e => e.DepartmentID == removedRecord.DepartmentID),
-                Shift = removedRecord.Shift
+                Employee = context.Employee.Single(e => e.BusinessEntityID == record.BusinessEntityID),
+                Department = context.Department.Where(e => e.Name == history.Department).First(),
+                Shift = record.Shift
             };
 
             newRecord.Employee.Person.FirstName = history.FirstName;
             newRecord.Employee.Person.LastName = history.LastName;
-            //newRecord.Department.Name = history.Department;
 
             context.EmployeeDepartmentHistory.Add(newRecord);
-
 
             await context.SaveChangesAsync();
         }
