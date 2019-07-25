@@ -272,3 +272,7 @@ $(function () {
     DatePicker('DateFrom');
     DatePicker('DateTo');
 });
+
+$('#CreateHistoryModal').on('show.bs.modal', function (event) {
+
+});
