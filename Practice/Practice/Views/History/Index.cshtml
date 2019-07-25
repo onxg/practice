@@ -18,6 +18,15 @@
         <i class="fas fa-table"></i>
         History
     </div>
+    <div class="row mt-3 ml-2">
+        <div class="col-md-2"> From</div>
+        <div class="col-md-2"> To </div>
+    </div>
+    <div class="row mt-1 ml-2">
+        <div class="col-md-2"> <input type="text" class="form-control" id="DateFrom" name="DateFrom" value="2006-01-01" /></div>
+        <div class="col-md-2"> <input type="text" class="form-control" name="DateTo" /></div>
+        <div class="col-md"><button type="button" class="btn btn-primary" id="FilterButton">Filter</button></div>
+    </div>
     <div class="card-body">
 
         <div class="table-responsive">
@@ -38,13 +47,15 @@
     </div>
 </div>
 
-@Html.Partial("EditHistoryPartial")
-@Html.Partial("DeleteHistoryPartial")
+    @Html.Partial("EditHistoryPartial")
+    @Html.Partial("DeleteHistoryPartial")
 
-@section Scripts {
-    <script src="~/js/demo/datatables-demo.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Scripts/toastr.min.js"></script>
-    <script src="~/js/history.js"></script>
-}
+    @section Scripts {
+        <script src="~/js/demo/datatables-demo.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/Scripts/toastr.min.js"></script>
+        <script src="~/js/history.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    }
