@@ -26,13 +26,19 @@ function convertDate(x,display) {
 
 function loadHistoryTable() {
     $('#table').DataTable().destroy();
+    var dateFrom = $('#DateFrom').val();
+    var dateTo = $('#DateTo').val();
     var tab = $('#table').DataTable({
         "bServerSide": true,
         "bProcessing": true,
         "searching": false,
         "ajax": {
             url: '/History/GetAllHistoriesAsync',
-            type: 'POST'
+            type: 'POST',
+            data: {
+                dateFrom: dateFrom,
+                dateTo: dateTo
+            }
         },
         paging: true,
         ordering: true,
@@ -244,4 +250,31 @@ $('#saveHistoryButton').click(function (e) {
             }
         })
     }
+});
+
+$("#FilterButton").click(function (e) {
+    loadHistoryTable();
+    /*e.preventDefault();
+    let modal = $("#deleteHistoryModal");
+    $.ajax({
+        type: "POST",
+        url: "/History/Delete/",
+        data: {
+            id: modal.find("#hiddenId").val(),
+            department: modal.find("#hiddenDepartment").val(),
+            startDate: modal.find("#hiddenDate").val()
+        },
+        success: function (result) {
+            if (result.status == "success") {
+                loadHistoryTable();
+                modal.modal("hide");
+                toastr["success"](result.message, "Success");
+            } else {
+                toastr["error"](result.message, "Error");
+            }
+        },
+        error: function (result) {
+            toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+        }
+    });*/
 });

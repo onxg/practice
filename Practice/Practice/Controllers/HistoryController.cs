@@ -26,9 +26,19 @@ namespace Practice.Controllers
 
         public async Task<ActionResult> GetAllHistoriesAsync(FormCollection form)
         {
+            DateTime dateFrom = DateTime.MinValue;
+            if (!String.IsNullOrEmpty(form["dateFrom"]))
+                dateFrom = Convert.ToDateTime(form["dateFrom"]);
+
+            DateTime dateTo = DateTime.MaxValue;
+            if (!String.IsNullOrEmpty(form["dateTo"]))
+                dateTo = Convert.ToDateTime(form["dateTo"]);
+
             var searchFilters = new SearchFilters(form)
             {
-                OrderBy = GetOrderBy(form)
+                OrderBy = GetOrderBy(form),
+                StartDate = dateFrom,
+                EndDate = dateTo
             };
 
             var result = await historyRepository.GetAllHistoriesAsync(searchFilters);

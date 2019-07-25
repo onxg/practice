@@ -40,7 +40,6 @@ namespace Practice.Repository
             if (!string.IsNullOrEmpty(searchFilters.SearchValue))
             {
                 var keyword = searchFilters.SearchValue.ToLower().Trim();
-
                 history = history
                     .Where(s => s.Id.ToString().Contains(keyword) ||
                     s.FirstName.ToLower().Contains(keyword) ||
@@ -48,6 +47,12 @@ namespace Practice.Repository
                     s.Department.ToLower().Contains(keyword))
                     .ToList();
             }
+
+            if (searchFilters.StartDate != DateTime.MinValue || searchFilters.EndDate != DateTime.MaxValue)
+            {
+                history = history.Where(f => f.StartDate > searchFilters.StartDate && f.StartDate < searchFilters.EndDate).ToList();
+            }
+
             var rawData = history
                 .OrderBy(searchFilters.OrderBy)
                 .Skip(searchFilters.DisplayStart)
