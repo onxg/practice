@@ -24,6 +24,8 @@ namespace Practice.DAL
         [StringLength(6)]
         public string CultureID { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public DateTime ModifiedDate { get; set; }
 
         public virtual Culture Culture { get; set; }

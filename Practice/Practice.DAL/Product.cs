@@ -90,8 +90,6 @@ namespace Practice.DAL
         public Guid rowguid { get; set; }
 
         public DateTime ModifiedDate { get; set; }
-        public bool IsDeleted { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BillOfMaterials> BillOfMaterials { get; set; }
 

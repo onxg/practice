@@ -13,6 +13,7 @@
         {
             productRepository = _productRepository;
         }
+        [Authorize]
         public ActionResult Index()
         {
             return View();
@@ -95,5 +96,28 @@
             return Json(new { status = "success", message = "Product has been successfully edited." });
         }
 
-    }
+        [HttpPost]
+        public async Task<ActionResult> Delete(FormCollection formCollection)
+        {
+           
+            if (!int.TryParse(formCollection["id"], out int id) || id == 0)
+            {
+                return (Json(new { status = "error", message = "Invalid id." }));         
+            }
+            string cultureid = formCollection["culture"];
+            if (cultureid ==null)
+            {
+                return(Json(new { status = "error", message = "Invalid CultureID." }));
+            }
+            try
+            {
+                await productRepository.DeleteProduct(id, cultureid);
+            }
+            catch(InvalidOperationException e)
+            {
+                return Json(new { status = "error", message = e.Message });
+            }
+            return Json(new { status = "success", message = "Product has been successfully deleted." });
+        }
+    } 
 }

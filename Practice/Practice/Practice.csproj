@@ -344,6 +344,7 @@
     <Content Include="js\sb-admin.min.js" />
     <Content Include="content\toastr.scss" />
     <Content Include="content\toastr.less" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="js\store.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

@@ -67,8 +67,8 @@ function loadSubscriptionsTable() {
 
 $('#editProductModal').on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget);
-    var ProductID = button.data('productid');
-    var CultureID = button.data('cultureid');
+    let ProductID = button.data('productid');
+    let CultureID = button.data('cultureid');
     let modal = $(this);
     $.ajax({
         type: "POST",
@@ -84,19 +84,19 @@ $('#editProductModal').on('show.bs.modal', function (event) {
                 modal.find('#Name').val(result.product.Name);
                 modal.find('#ProductModel').val(result.product.ProductModel);
                 modal.find('#Description').val(result.product.Description);
-
+                
                 let cultures = result.product.Cultures;
                 let htmlCultures = "";
                 let textToPrint = "";
                 for (i = 0; i < cultures.length; i++) {
-                    if (cultures[i] == culture)
+                    if (cultures[i] == CultureID)
                         textToPrint = "<option selected>" + cultures[i] + "</option>"
                     else
                         textToPrint = "<option>" + cultures[i] + "</option>";
 
                     htmlCultures += textToPrint;
                 }
-                document.getElementById('CultureID').innerHTML = htmlCultures;
+                document.getElementById('cultureid').innerHTML = htmlCultures;
 
             } else {
                 toastr["error"](result.message, "Error");
@@ -123,7 +123,7 @@ $("#saveProductButton").click(function (e) {
                 id: modal.find('#ProductID').val(),
                 Name: modal.find('#Name').val(),
                 ProductModel: modal.find('#ProductModel').val(),
-                culture: modal.find('#CultureID').val(),
+                culture: modal.find('#cultureid').val(),
                 Description: modal.find('#Description').val()
             },
             success: function (result) {
@@ -135,7 +135,7 @@ $("#saveProductButton").click(function (e) {
                     modal.find('#ProductID').val("");
                     modal.find('#Name').val("");
                     modal.find('#ProductModel').val("");
-                    modal.find('#CultureID').val("");
+                    modal.find('#cultureid').val("");
                     modal.find('#Description').val("");
                 } else {
                     toastr["error"](result.message, "Error");
@@ -149,54 +149,85 @@ $("#saveProductButton").click(function (e) {
 });
 
 
-//$('#deleteStoreModal').on('show.bs.modal', function (event) {
-//    var button = $(event.relatedTarget);
-//    var id = button.data('id');
-//    let modal = $(this);
+$('#deleteProductModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    let ProductID = button.data('productid');
+    let CultureID = button.data('cultureid');
+    let modal = $(this);
 
-//    $.ajax({
-//        type: "POST",
-//        url: "/Store/GetStore/",
-//        data: {
-//            id: id
-//        },
-//        success: function (result) {
-//            if (result.status == "success") {
-//                modal.find('#hiddenId').val(result.store.Id);
-//                modal.find('.modal-body').text('Do you want to delete store: `' + result.store.Name + '`?');
-//            } else {
-//                toastr["error"](result.message, "Error");
-//            }
-//        },
-//        error: function (result) {
-//            toastr["error"]("Oops. Something went wrong. Try again.", "Error");
-//        }
-//    });
+    $.ajax({
+        type: "POST",
+        url: "/Product/GetProduct/",
+        data: {
+            id: ProductID,
+            culture: CultureID
+        },
+        success: function (result) {
+            if (result.status == "success") {
+                modal.find('#hiddenId').val(result.product.ProductID);
+                modal.find('#hiddenCultureID').val(result.product.CultureID);
+                modal.find('.modal-body').text('Do you want to delete product: `' + result.product.ProductID + '`?');
+            } else {
+                toastr["error"](result.message, "Error");
+            }
+        },
+        error: function (result) {
+            toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+        }
+    });
 
-//});
+});
 
 
-//$("#deleteStoreButton").click(function (e) {
-//    e.preventDefault();
-//    let modal = $("#deleteStoreModal");
+$("#deleteProductButton").click(function (e) {
+    e.preventDefault();
+    let modal = $("#deleteProductModal");
+    console.log(modal.find("#hiddenId").val());
+    $.ajax({
+        type: "POST",
+        url: "/Product/Delete/",
+        data: {
+            id: modal.find("#hiddenId").val(),
+            culture: modal.find('#hiddenCultureID').val()
+        },
+        success: function (result) {
+            if (result.status == "success") {
+                loadSubscriptionsTable();
+                modal.modal("hide");
+                toastr["success"](result.message, "Success");
+            } else {
+                toastr["error"](result.message, "Error");
+            }
+        },
+        error: function (result) {
+            toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+        }
+   });
+});
 
-//    $.ajax({
-//        type: "POST",
-//        url: "/Store/Delete/",
-//        data: {
-//            id: modal.find("#hiddenId").val()
-//        },
-//        success: function (result) {
-//            if (result.status == "success") {
-//                loadSubscriptionsTable();
-//                modal.modal("hide");
-//                toastr["success"](result.message, "Success");
-//            } else {
-//                toastr["error"](result.message, "Error");
-//            }
-//        },
-//        error: function (result) {
-//            toastr["error"]("Oops. Something went wrong. Try again.", "Error");
-//        }
-//   });
-//});
+$('#descriptionModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    let ProductID = button.data('productid');
+    let CultureID = button.data('cultureid');
+    let modal = $(this);
+
+    $.ajax({
+        type: "POST",
+        url: "/Product/GetProduct/",
+        data: {
+            id: ProductID,
+            culture: CultureID
+        },
+        success: function (result) {
+            if (result.status == "success") {
+                modal.find('.modal-body').text(result.product.Description);
+            } else {
+                toastr["error"](result.message, "Error");
+            }
+        },
+        error: function (result) {
+            toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+        }
+    });
+
+});

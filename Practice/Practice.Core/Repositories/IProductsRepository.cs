@@ -7,7 +7,7 @@
         Task<DataTablesObject<Product>> GetAllProductsAsync(SearchFilters searchFilters);
         Task<ViewModels.Product> GetProductById(int id,string culture);
         Task UpdateProduct(ViewModels.Product product);
-        Task DeleteProduct(int id);
+        Task DeleteProduct(int id,string cultureid);
         //Task Description(int id,string culture);
     }
 }
