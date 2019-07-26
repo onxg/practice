@@ -128,6 +128,14 @@
     <Compile Include="Migrations\201907220936471_AddIsDeletedToStoreEntity2.Designer.cs">
       <DependentUpon>201907220936471_AddIsDeletedToStoreEntity2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907231102065_isDeletedToProduct.cs" />
+    <Compile Include="Migrations\201907231102065_isDeletedToProduct.Designer.cs">
+      <DependentUpon>201907231102065_isDeletedToProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907231154499_isDeletedProduct.cs" />
+    <Compile Include="Migrations\201907231154499_isDeletedProduct.Designer.cs">
+      <DependentUpon>201907231154499_isDeletedProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201907231123436_AddColumnIsDeletedToTableEmployeeDepartmentHistory.cs" />
     <Compile Include="Migrations\201907231123436_AddColumnIsDeletedToTableEmployeeDepartmentHistory.Designer.cs">
       <DependentUpon>201907231123436_AddColumnIsDeletedToTableEmployeeDepartmentHistory.cs</DependentUpon>
@@ -222,6 +230,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907220936471_AddIsDeletedToStoreEntity2.resx">
       <DependentUpon>201907220936471_AddIsDeletedToStoreEntity2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907231102065_isDeletedToProduct.resx">
+      <DependentUpon>201907231102065_isDeletedToProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907231154499_isDeletedProduct.resx">
+      <DependentUpon>201907231154499_isDeletedProduct.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907231123436_AddColumnIsDeletedToTableEmployeeDepartmentHistory.resx">
       <DependentUpon>201907231123436_AddColumnIsDeletedToTableEmployeeDepartmentHistory.cs</DependentUpon>
