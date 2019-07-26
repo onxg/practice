@@ -1961,6 +1961,7 @@
     <Content Include="Views\History\Index.cshtml" />
     <Content Include="Views\History\DeleteHistoryPartial.cshtml" />
     <Content Include="Views\History\EditHistoryPartial.cshtml" />
+    <Content Include="Views\History\CreateHistoryPartial.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <Content Include="Views\Shared\_mainLayout.cshtml" />
     <Content Include="Views\Side\404.cshtml" />

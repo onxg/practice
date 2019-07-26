@@ -1,0 +1,71 @@
+﻿<div class="modal fade" id="CreateHistoryModal" tabindex="-1" role="dialog" aria-labelledby="createHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createHistoryModalLabel">Create new history record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="createHistoryForm">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="container-fluid">
+                            <div><input type="hidden" id="hiddenId" value="" /></div>
+                            <div><input type="hidden" id="hiddenStartDate" value="" /></div>
+                            <div><input type="hidden" id="hiddenDepartment" value="" /></div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="CreateFirstName">First Name</label>
+                                    <div>
+                                        <input class="form-control text-box single-line" data-val="true" data-val-required="First Name is required." id="CreateFirstName" name="FirstName" type="text" value="" />
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="CreateLastName">Last Name</label>
+                                    <div>
+                                        <input class="form-control text-box single-line" data-val="true" data-val-required="Last Name is required." id="CreateLastName" name="LastName" type="text" value="" />
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="CreateDepartment">Department</label>
+                                    <div>
+                                        <select class="form-control" data-val="true" data-val-required="Department is required." id="CreateDepartment" name="Department"></select>
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="Department" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="CreateStartDate">Start Date</label>
+                                    <div>
+                                        <input class="form-control text-box single-line" data-val="true" data-val-required="Start Date is required." id="CreateStartDate" name="StartDate" type="date" value="" />
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="StartDate" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="CreateEndDate">End Date</label>
+                                    <div>
+                                        <input class="form-control text-box single-line" id="CreateEndDate" name="EndDate" type="date" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="CreateHistoryButton">Create</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

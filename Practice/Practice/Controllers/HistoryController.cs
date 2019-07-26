@@ -156,5 +156,42 @@ namespace Practice.Controllers
 
             return Json( new { status = "success", message = "History has been succesfully updated." });
         }
+
+        
+        [HttpPost]
+        public async Task<ActionResult> GetDepartments()
+        {
+            var departments = await historyRepository.GetDepartmentsList();
+
+            return Json(new { status = "success", departments });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(FormCollection form)
+        {
+            DateTime startDate = Convert.ToDateTime(form["startDate"]);
+
+            var history = new History
+            {
+                FirstName = form["firstName"],
+                LastName = form["lastName"],
+                Department = form["department"],
+                StartDate = startDate
+            };
+
+            if (!string.IsNullOrEmpty(form["endDate"]))
+                history.EndDate = Convert.ToDateTime(form["endDate"]);
+
+            try
+            {
+                await historyRepository.CreateHistory(history);
+            }
+            catch (InvalidOperationException e)
+            {
+                return Json(new { status = "error", message = e.Message });
+            }
+
+            return Json(new { status = "success", message = "History record has been successfully added." });
+        }
     }
 }
