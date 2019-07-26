@@ -104,33 +104,9 @@
     <Compile Include="Illustration.cs" />
     <Compile Include="JobCandidate.cs" />
     <Compile Include="Location.cs" />
-    <Compile Include="Migrations\201907181230575_initial.cs" />
-    <Compile Include="Migrations\201907181230575_initial.Designer.cs">
-      <DependentUpon>201907181230575_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907181232138_AddIdentity.cs" />
-    <Compile Include="Migrations\201907181232138_AddIdentity.Designer.cs">
-      <DependentUpon>201907181232138_AddIdentity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907211855112_ResetPasswordToken.cs" />
-    <Compile Include="Migrations\201907211855112_ResetPasswordToken.Designer.cs">
-      <DependentUpon>201907211855112_ResetPasswordToken.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907220621438_RemoveResetPasswordToken.cs" />
-    <Compile Include="Migrations\201907220621438_RemoveResetPasswordToken.Designer.cs">
-      <DependentUpon>201907220621438_RemoveResetPasswordToken.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907191152476_AddIsDeletedToStoreEntity.cs" />
-    <Compile Include="Migrations\201907191152476_AddIsDeletedToStoreEntity.Designer.cs">
-      <DependentUpon>201907191152476_AddIsDeletedToStoreEntity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907220936471_AddIsDeletedToStoreEntity2.cs" />
-    <Compile Include="Migrations\201907220936471_AddIsDeletedToStoreEntity2.Designer.cs">
-      <DependentUpon>201907220936471_AddIsDeletedToStoreEntity2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907231123436_AddColumnIsDeletedToTableEmployeeDepartmentHistory.cs" />
-    <Compile Include="Migrations\201907231123436_AddColumnIsDeletedToTableEmployeeDepartmentHistory.Designer.cs">
-      <DependentUpon>201907231123436_AddColumnIsDeletedToTableEmployeeDepartmentHistory.cs</DependentUpon>
+    <Compile Include="Migrations\201907260942527_all.cs" />
+    <Compile Include="Migrations\201907260942527_all.Designer.cs">
+      <DependentUpon>201907260942527_all.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Password.cs" />
@@ -205,26 +181,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907181230575_initial.resx">
-      <DependentUpon>201907181230575_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907181232138_AddIdentity.resx">
-      <DependentUpon>201907181232138_AddIdentity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907211855112_ResetPasswordToken.resx">
-      <DependentUpon>201907211855112_ResetPasswordToken.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907220621438_RemoveResetPasswordToken.resx">
-      <DependentUpon>201907220621438_RemoveResetPasswordToken.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907191152476_AddIsDeletedToStoreEntity.resx">
-      <DependentUpon>201907191152476_AddIsDeletedToStoreEntity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907220936471_AddIsDeletedToStoreEntity2.resx">
-      <DependentUpon>201907220936471_AddIsDeletedToStoreEntity2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907231123436_AddColumnIsDeletedToTableEmployeeDepartmentHistory.resx">
-      <DependentUpon>201907231123436_AddColumnIsDeletedToTableEmployeeDepartmentHistory.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907260942527_all.resx">
+      <DependentUpon>201907260942527_all.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

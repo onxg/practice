@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+    ViewBag.ActivePage = "Products";
+}
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.RouteUrl("Products")">Products</a>
+    </li>
+    <li class="breadcrumb-item active">List</li>
+</ol>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Products
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="table">
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Name</th>
+                        <th>Model</th>
+                        <th>Culture</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div> 
+</div>
+
+@Html.Partial("EditProductModalPartial")
+@Html.Partial("DeleteProductModalPartial")
+@Html.Partial("DescriptionModalPartial")
+
+@section Scripts {
+    <script src="~/js/demo/datatables-demo.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/js/product.js"></script>
+}

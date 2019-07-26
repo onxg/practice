@@ -1,0 +1,66 @@
+﻿
+<div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProductModalLabel">Edit Store</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editProductForm">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <input type="hidden" id="id" value="">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="ProductID">ProductID</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Product ID is required." id="ProductID" name="ProductID" type="text" value="" readonly="readonly"/>
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="ProductID" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="Name">Name</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Name is required." id="Name" name="Name" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="ProductModel">Product Model</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Model is required." id="ProductModel" name="ProductModel" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="ProductModel" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="CultureID">Culture</label>
+                                <div>
+                                    <select class="form-control" id="cultureid" name="CultureID"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="Description">Description</label>
+                                <div>
+                                    <input class="form-control text-box single-line" data-val="true" data-val-required="Description is required." id="Description" name="Description" type="text" value="" />
+                                    <span class="field-validation-valid text-danger" data-valmsg-for="Description" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="saveProductButton">Save changes</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

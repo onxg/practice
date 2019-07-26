@@ -339,10 +339,12 @@
     <Content Include="js\demo\datatables-demo.js" />
     <Content Include="js\employees.js" />
     <Content Include="js\history.js" />
+    <Content Include="js\product.js" />
     <Content Include="js\sb-admin.js" />
     <Content Include="js\sb-admin.min.js" />
     <Content Include="content\toastr.scss" />
     <Content Include="content\toastr.less" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="js\store.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -1974,6 +1976,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\UserPanel.cshtml" />
+    <Content Include="Views\Product\index.cshtml" />
+    <Content Include="Views\Product\EditProductModalPartial.cshtml" />
+    <Content Include="Views\Product\DeleteProductModalPartial.cshtml" />
+    <Content Include="Views\Product\DescriptionModalPartial.cshtml" />
     <None Include="Views\Side\tables.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -1984,6 +1990,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SideController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">

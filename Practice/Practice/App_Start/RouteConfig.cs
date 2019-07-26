@@ -81,6 +81,12 @@
                 url: "blank",
                 defaults: new { controller = "Side", action = "Blank" }
             );
+            routes.MapRoute(
+               name: "Products",
+               url: "products",
+               defaults: new { controller = "Product", action = "Index" }
+           );
+
 
 
             routes.MapRoute(
