@@ -16,16 +16,16 @@
                             <div><input type="hidden" id="hiddenDepartment" value="" /></div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label class="control-label" for="FirstName">First Name</label>
+                                    <label class="control-label" for="CreateFirstName">First Name</label>
                                     <div>
-                                        <input class="form-control text-box single-line" data-val="true" data-val-required="First Name is required." id="FirstName" name="FirstName" type="text" value="" />
+                                        <input class="form-control text-box single-line" data-val="true" data-val-required="First Name is required." id="CreateFirstName" name="FirstName" type="text" value="" />
                                         <span class="field-validation-valid text-danger" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="control-label" for="LastName">Last Name</label>
+                                    <label class="control-label" for="CreateLastName">Last Name</label>
                                     <div>
-                                        <input class="form-control text-box single-line" data-val="true" data-val-required="Last Name is required." id="LastName" name="LastName" type="text" value="" />
+                                        <input class="form-control text-box single-line" data-val="true" data-val-required="Last Name is required." id="CreateLastName" name="LastName" type="text" value="" />
                                         <span class="field-validation-valid text-danger" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
                                     </div>
                                 </div>
@@ -33,15 +33,16 @@
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label class="control-label" for="Department">Department</label>
+                                    <label class="control-label" for="CreateDepartment">Department</label>
                                     <div>
-                                        <select class="form-control" id="Department" name="Department"></select>
+                                        <select class="form-control" data-val="true" data-val-required="Department is required." id="CreateDepartment" name="Department"></select>
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="Department" data-valmsg-replace="true"></span>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="control-label" for="StartDate">Start Date</label>
+                                    <label class="control-label" for="CreateStartDate">Start Date</label>
                                     <div>
-                                        <input class="form-control text-box single-line" data-val="true" data-val-required="Start Date is required." id="StartDate" name="StartDate" type="date" value="" />
+                                        <input class="form-control text-box single-line" data-val="true" data-val-required="Start Date is required." id="CreateStartDate" name="StartDate" type="date" value="" />
                                         <span class="field-validation-valid text-danger" data-valmsg-for="StartDate" data-valmsg-replace="true"></span>
                                     </div>
                                 </div>
@@ -49,9 +50,9 @@
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label class="control-label" for="EndDate">End Date</label>
+                                    <label class="control-label" for="CreateEndDate">End Date</label>
                                     <div>
-                                        <input class="form-control text-box single-line" id="EndDate" name="EndDate" type="date" value="" />
+                                        <input class="form-control text-box single-line" id="CreateEndDate" name="EndDate" type="date" value="" />
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +62,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="createStoreButton">Create</button>
+                    <button type="submit" class="btn btn-primary" id="CreateHistoryButton">Create</button>
                 </div>
             </form>
 

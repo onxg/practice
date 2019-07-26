@@ -129,5 +129,101 @@ namespace Practice.Repository
 
             await context.SaveChangesAsync();
         }
+
+        public async Task<List<string>> GetDepartmentsList()
+        {
+            var departments = await context.Department.Select(x => x.Name).ToListAsync();
+            return departments;
+        }
+
+        public async Task CreateHistory(History history)
+        {
+
+            // Check if employee exists in the db
+            if (await RecordExists(history))
+                throw new InvalidOperationException("This history record already exists.");
+
+            // Create a person entity with all needed relations
+            var person = new Person
+            {
+                BusinessEntity = new BusinessEntity
+                {
+                    rowguid = Guid.NewGuid(),
+                    ModifiedDate = DateTime.Now,
+                    BusinessEntityAddress = new List<BusinessEntityAddress>
+                    {
+                        new BusinessEntityAddress
+                        {
+                            Address = new Address
+                            {
+                                AddressLine1 = "Not specified",
+                                AddressLine2 = Guid.NewGuid().ToString(), // to avoid bug with 2 different employees having the same address
+                                City = "Not specified",
+                                PostalCode = "Not specified",
+                                rowguid = Guid.NewGuid(),
+                                ModifiedDate = DateTime.Now,
+                                StateProvince = await context.StateProvince.FirstOrDefaultAsync()
+                            },
+                            AddressType = await context.AddressType.FirstOrDefaultAsync(at => at.Name == "Home"),
+                            ModifiedDate = DateTime.Now,
+                            rowguid = Guid.NewGuid()
+                        }
+                    }
+                },
+                FirstName = history.FirstName,
+                LastName = history.LastName,
+                PersonType = "EM",
+                NameStyle = false,
+                EmailPromotion = 0,
+                rowguid = Guid.NewGuid(),
+                ModifiedDate = DateTime.Now,
+            };
+
+            // Create new employee with random properties
+            var random = new Random();
+            var employee = new DAL.Employee
+            {
+                Person = person,
+                NationalIDNumber = random.Next().ToString(),
+                LoginID = $"adventure-works/{history.FirstName.ToLower() + random.Next().ToString()}",
+                JobTitle = "Intern",
+                BirthDate = new DateTime(random.Next(1970, 2000), random.Next(1, 12), random.Next(1, 28)),
+                MaritalStatus = "S",
+                Gender = random.Next(0, 1) == 1 ? "M" : "F",
+                HireDate = DateTime.Now - TimeSpan.FromDays(1),
+                SalariedFlag = false,
+                VacationHours = 25,
+                SickLeaveHours = 0,
+                CurrentFlag = true,
+                rowguid = Guid.NewGuid(),
+                ModifiedDate = DateTime.Now
+            };
+
+            Department department = await context.Department.Where(e => e.Name == history.Department).FirstAsync();
+            Shift shift = await context.Shift.Where(e => e.ShiftID == 1).FirstAsync();
+
+            var record = new EmployeeDepartmentHistory
+            {
+                ShiftID = shift.ShiftID,
+                StartDate = history.StartDate,
+                EndDate = history.EndDate,
+                ModifiedDate = DateTime.Now,
+                Department = department,
+                Employee = employee,
+                Shift = shift
+            };
+
+            context.EmployeeDepartmentHistory.Add(record);
+            await context.SaveChangesAsync();
+        }
+
+        private async Task<bool> RecordExists(History history)
+        {
+            var foundRecord = await context.vEmployeeDepartmentHistory.FirstOrDefaultAsync(e => e.FirstName == history.FirstName &&
+                                                                            e.LastName == history.LastName &&
+                                                                            e.Department == history.Department &&
+                                                                            e.StartDate == history.StartDate);
+            return foundRecord != null;
+        }
     }
 }

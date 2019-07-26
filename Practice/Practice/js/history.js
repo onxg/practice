@@ -252,6 +252,62 @@ $('#saveHistoryButton').click(function (e) {
     }
 });
 
+$('#CreateHistoryModal').on('show.bs.modal', function () {
+    $.ajax({
+        type: "POST",
+        url: "/History/GetDepartments/",
+        success: function (result) {
+            // for showing Departments list in  editing modal
+            let departments = result.departments;
+            let htmlDepartments = "<option></option>";
+            let textToPrint = "";
+            for (i = 0; i < departments.length; i++) {
+                    textToPrint = "<option>" + departments[i] + "</option>";
+
+                htmlDepartments += textToPrint;
+            }
+            document.getElementById('CreateDepartment').innerHTML = htmlDepartments;
+        }
+    });
+});
+
+$('#CreateHistoryButton').click(function (e) {
+    e.preventDefault();
+    let modal = $('#CreateHistoryModal');
+    let validationSucceed = $('#createHistoryForm').validate().form();
+    if (validationSucceed) {
+        $.ajax({
+            type: "POST",
+            url: "/History/Create/",
+            data: {
+                firstName: modal.find('#CreateFirstName').val(),
+                lastName: modal.find('#CreateLastName').val(),
+                department: modal.find('#CreateDepartment').val(),
+                startDate: modal.find('#CreateStartDate').val(),
+                endDate: modal.find('#CreateEndDate').val()
+            },
+            success: function (result) {
+                if (result.status == "success") {
+                        loadHistoryTable();
+                        modal.modal("hide");
+                        toastr["success"](result.message, "Success");
+
+                        modal.find('#CreateFirstName').val("");
+                        modal.find('#CreateLastName').val("");
+                        modal.find('#CreateDepartment').val("");
+                        modal.find('#CreateStartDate').val("");
+                        modal.find('#CreateEndDate').val("");
+                    } else {
+                        toastr["error"](result.message, "Error");
+                    }
+            },
+            error: function (result) {
+                toastr["error"]("Oops. Something went wrong. Try again.", "Error");
+            }
+        });
+    }
+});
+
 $("#FilterButton").click(function (e) {
     loadHistoryTable();
 });
@@ -271,8 +327,4 @@ let DatePicker = function (elementName) {
 $(function () {
     DatePicker('DateFrom');
     DatePicker('DateTo');
-});
-
-$('#CreateHistoryModal').on('show.bs.modal', function (event) {
-
 });
